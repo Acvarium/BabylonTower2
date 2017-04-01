@@ -81,6 +81,8 @@ func findBallByName(name):
 		if b == name:
 			var col = int(index / 7)
 			var row = (index - col * 7)
+			if index == mainArray.size() - 1:
+				return(Vector2(slot,7))
 			return(Vector2(col,row))
 		index += 1
 
@@ -123,3 +125,11 @@ func _signal_arrow(rowDir):
 		else:
 			shiftRow(rowDir)
 		updateBalls()
+
+func _signal_ballClicked(name):
+	
+	if name != 'b':
+		name = name[1] + name[2]
+		if findBallByName('').x == findBallByName(name).x:
+			print(findBallByName(name))
+		

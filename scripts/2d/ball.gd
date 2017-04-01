@@ -1,15 +1,14 @@
 extends KinematicBody2D
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
+signal ballClicked(name)
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
+	self.connect("ballClicked",get_node("/root/main"),"_signal_ballClicked")
+
 	
 func setColor(color):
 	get_node("Sprite").set_modulate(color)
-	
-	
+
+func _on_TextureButton_pressed():
+	var name = get_name()
+	emit_signal("ballClicked", name)

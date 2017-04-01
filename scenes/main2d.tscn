@@ -17,6 +17,7 @@ transform/pos = Vector2( 64, 64 )
 
 [node name="left" type="Node2D" parent="arrows"]
 
+editor/display_folded = true
 transform/pos = Vector2( 32, 32 )
 
 [node name="L" parent="arrows/left" instance=ExtResource( 2 )]
