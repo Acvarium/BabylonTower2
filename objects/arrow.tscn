@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://textures/2d/arrow.png" type="Texture" id=1]
+[ext_resource path="res://scripts/2d/arrow.gd" type="Script" id=2]
+
+[node name="arrow" type="TextureButton"]
+
+rect/scale = Vector2( 0.25, 0.25 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 256.0
+margin/bottom = 256.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 1 )
+params/modulate = Color( 0.957031, 0.523376, 0.523376, 1 )
+script/script = ExtResource( 2 )
+mov = -1
+
+[connection signal="pressed" from="." to="." method="_on_arrow_pressed"]
+
+
