@@ -50,7 +50,7 @@ func toColor(colorMark):
 	elif colorMark == 'o':		#Помаранчеві
 		color = Color(1.0, 0.5, 0.0, 1.0)
 	elif colorMark == 'y':		#Жовті
-		color = Color(1.0, 1.0, 0.0, 1.0)
+		color = Color(0.65, 0.65, 0.0, 1.0)
 	elif colorMark == 'p':		#Фіолетові
 		color = Color(1.0, 0.0, 1.0, 1.0)
 	return color
