@@ -17,7 +17,9 @@ func _ready():
 				 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 
 				 ''] 
 #Створення кульок відповідно до ключового масиву
+	shuffleBalls()
 	updateBalls()
+	
 
 #Обробка подій (натискання клавіш)
 func _input(event):
@@ -44,7 +46,7 @@ func toColor(colorMark):
 	elif colorMark == 'r':		#Червоні
 		color = Color(1,0,0,1)
 	elif colorMark == 'g':		#Зелені
-		color = Color(0,1,0,1)
+		color = Color(0,0.6,0,1)
 	elif colorMark == 'b':		#Сині
 		color = Color(0,0,1,1)
 	elif colorMark == 'o':		#Помаранчеві
@@ -52,7 +54,7 @@ func toColor(colorMark):
 	elif colorMark == 'y':		#Жовті
 		color = Color(0.65, 0.65, 0.0, 1.0)
 	elif colorMark == 'p':		#Фіолетові
-		color = Color(1.0, 0.0, 1.0, 1.0)
+		color = Color(0.65, 0.0, 0.65, 1.0)
 	return color
 
 #Зміщення рядка ліворуч або праворуч
@@ -126,10 +128,46 @@ func _signal_arrow(rowDir):
 			shiftRow(rowDir)
 		updateBalls()
 
+func cutCol(ball):
+	var column = []
+	var i
+	for b in range(7):
+		i = b + (ball.x * 7)
+		column.append(mainArray[i])
+	if slot == ball.x:
+		column.append(mainArray[mainArray.size() - 1])
+	print(column)
+	var empty = findBallByName('')
+
+	var dir = 1
+	if empty.y > ball.y:
+		dir = -1
+	i = empty.y
+	while(i != ball.y):
+		column[i] = column[i + dir]
+		
+		i += dir
+	column[ball.y] = ''
+		
+	print('-----------------')
+	print(column)
+
+	for b in range(7):
+		i = b + (ball.x * 7)
+		mainArray[i] = column[b]
+	if slot == ball.x:
+		mainArray[mainArray.size() - 1] = column[column.size() - 1]
+
+
+
 func _signal_ballClicked(name):
-	
 	if name != 'b':
 		name = name[1] + name[2]
 		if findBallByName('').x == findBallByName(name).x:
 			print(findBallByName(name))
+			var sCol = findBallByName(name).x
+#			print(str("------" + str(sCol)))
+			cutCol(findBallByName(name))
+			updateBalls()
+			
 		
