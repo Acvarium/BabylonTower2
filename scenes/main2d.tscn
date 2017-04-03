@@ -100,7 +100,6 @@ mov = -8
 
 [node name="right" type="Node2D" parent="arrows"]
 
-editor/display_folded = true
 transform/pos = Vector2( 480, -32 )
 
 [node name="R" parent="arrows/right" instance=ExtResource( 3 )]
@@ -174,5 +173,28 @@ margin/top = 416.0
 margin/right = 288.0
 margin/bottom = 672.0
 mov = 8
+
+[node name="Area2D" type="Area2D" parent="."]
+
+input/pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="txt" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+text = "123, 321"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 

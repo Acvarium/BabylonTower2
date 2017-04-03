@@ -56,6 +56,8 @@ shortcut = null
 textures/normal = ExtResource( 5 )
 textures/hover = ExtResource( 6 )
 
+[connection signal="button_down" from="TextureButton" to="." method="_on_TextureButton_button_down"]
+
 [connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]
 
 
