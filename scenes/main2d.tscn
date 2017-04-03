@@ -21,14 +21,15 @@ margin/right = 768.0
 margin/bottom = 1200.0
 texture = ExtResource( 2 )
 stretch_mode = 0
+__meta__ = { "_edit_lock_":true }
 
 [node name="balls" type="Node2D" parent="."]
 
-transform/pos = Vector2( 96, 32 )
+transform/pos = Vector2( 96, 64 )
 
 [node name="arrows" type="Node2D" parent="."]
 
-transform/pos = Vector2( 0, 64 )
+transform/pos = Vector2( 0, 96 )
 
 [node name="left" type="Node2D" parent="arrows"]
 
@@ -99,6 +100,7 @@ mov = -8
 
 [node name="right" type="Node2D" parent="arrows"]
 
+editor/display_folded = true
 transform/pos = Vector2( 480, -32 )
 
 [node name="R" parent="arrows/right" instance=ExtResource( 3 )]
