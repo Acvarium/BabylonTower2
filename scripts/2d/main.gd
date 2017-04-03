@@ -6,7 +6,6 @@ var slot = 0
 var ballPressed = false
 var ballPressedName = ''
 var shiftPressed = Vector2(0,0)
-#var ballPressedPos = Vector2(0,0)
 
 func _fixed_process(delta):
 	var mouse = get_viewport().get_mouse_pos()
@@ -30,13 +29,13 @@ func _fixed_process(delta):
 			var ballsToShift = []
 			if ballPressedPos.y > 6:
 				ballsToShift.append(get_node("balls/b" + ballPressedName))
-				print(ballPressedName)
+
 			else:
 				for i in range(6):
 					var b = get_node("balls/b" + mainArray[i * 7 + ballPressedPos.y])
 					ballsToShift.append(b)
 			for i in range(ballsToShift.size()):
-				print(i)
+
 				var b = get_node("balls/b" + mainArray[mainArray.size() - 1])
 				if ballPressedPos.y < 7:
 					b = get_node("balls/b" + mainArray[i * 7 + ballPressedPos.y])
@@ -44,7 +43,6 @@ func _fixed_process(delta):
 				pos.x = i * 64 + mouseOnGrid.x * 64 - ballPressedPos.x * 64
 				if ballPressedPos.y > 6:
 					pos.x = i * 64 + mouseOnGrid.x * 64
-				print(ballPressedPos)
 				if pos.x > 64 * 6 - 32:
 					pos.x -= 64 * 6
 				elif pos.x < 0:
@@ -83,7 +81,7 @@ func _input(event):
 			shiftRow(shiftPressed.x, shiftPressed.y)
 		else:
 			if findBallByName('').x == findBallByName(ballPressedName).x:
-				#print(findBallByName(name))
+
 				var sCol = findBallByName(ballPressedName).x
 				cutCol(findBallByName(ballPressedName))
 				updateBalls()
@@ -226,11 +224,3 @@ func _signal_ballClicked(name):
 	else:
 		ballPressedName = ''
 	ballPressed = true
-
-#		if findBallByName('').x == findBallByName(name).x:
-#			print(findBallByName(name))
-#			var sCol = findBallByName(name).x
-#			cutCol(findBallByName(name))
-#			updateBalls()
-			
-		
