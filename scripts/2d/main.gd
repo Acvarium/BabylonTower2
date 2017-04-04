@@ -6,17 +6,41 @@ var ballPressed = false
 var ballPressedName = ''
 var shiftPressed = Vector2(0,0)
 
-var gameSize = Vector2(6,8)
-const COLORS = ['r', 'g', 'b', 'p', 'y', 'o']
+const MAX_SIZE = Vector2(6,9)
+var gameSize = Vector2(2,2)
 
-func setGameSize(gs):
-	gameSize = gs
-	
+const COLORS_NAMES = ['r', 'g', 'b', 'o', 'y', 'p']
+const COLORS = {
+'black' : Color(1,1,1,1),						#Чорний					0
+'empty' : Color(0,0,0,0),						#Порожня комірка		1
+"red" : Color(1,0,0,1),							#Червоний				2
+"green" : Color(0,0.6,0,1),						#Зелені					3
+"blue" : Color(0,0,1,1),						#Сині					4
+"orange" : Color(1.0, 0.5, 0.0, 1.0),			#Помаранчеві			5
+"yellow" : Color(0.65, 0.65, 0.0, 1.0),			#Жовті					6
+"purple" : Color(0.65, 0.0, 0.65, 1.0),			#Фіолетові				7
+}
+
+func setGameSize(size):
+	if size.x <= MAX_SIZE.x and size.y <= MAX_SIZE.y and size.x > 1 and size.y > 1:
+		for b in get_node("game/balls").get_children():
+			b.free()
+		
+		gameSize = size
+		generateMainArray()
+		updateBalls()
+#		if gameSize.y > gameSize.x:
+#			get_node("game").set_scale(Vector2(6 / (gameSize.y), 6 / (gameSize.y)))
+#		else:
+		get_node("game").set_scale(Vector2(8 / (gameSize.x + 2), 8 / (gameSize.x + 2)))
+
+
 func generateMainArray():
 	mainArray = []
+	print(gameSize)
 	for i in range(gameSize.x):
 		for j in range(gameSize.y):
-			mainArray.append(str(COLORS[i] + str(j)))
+			mainArray.append(str(COLORS_NAMES[i] + str(j)))
 	mainArray[mainArray.size() - 1] = ''
 
 func _fixed_process(delta):
@@ -25,24 +49,21 @@ func _fixed_process(delta):
 	if ballPressed:
 		var mouseOnGrid = Vector2(0,0)
 		var onGrid = Vector2(0,0)
-
 		mouseOnGrid.x = int((mouse.x - ballPressedPos.x) / 64) - 1 
 		mouseOnGrid.y = int((mouse.y - 32 - ballPressedPos.y) / 64)
-
 		onGrid.x = (int((mouse.x - ballPressedPos.x) / 64) - 1) - ballPressedPos.x
 		onGrid.y = int((mouse.y - 32 - ballPressedPos.y) / 64) - ballPressedPos.y
-
 		if onGrid.x != 0:
 			var ballsToShift = []
 
 			for i in range(gameSize.x):
-				var b = get_node("balls/b" + mainArray[i * gameSize.y + ballPressedPos.y])
+				var b = get_node("game/balls/b" + mainArray[i * gameSize.y + ballPressedPos.y])
 				ballsToShift.append(b)
 			for i in range(ballsToShift.size()):
 
-				var b = get_node("balls/b" + mainArray[mainArray.size() - 1])
+				var b = get_node("game/balls/b" + mainArray[mainArray.size() - 1])
 				if ballPressedPos.y < gameSize.y:
-					b = get_node("balls/b" + mainArray[i * gameSize.y + ballPressedPos.y])
+					b = get_node("game/balls/b" + mainArray[i * gameSize.y + ballPressedPos.y])
 				var pos = b.get_pos()
 				pos.x = i * 64 + mouseOnGrid.x * 64 - ballPressedPos.x * 64
 
@@ -55,19 +76,12 @@ func _fixed_process(delta):
 
 func _ready():
 	randomize()
-
 	set_process_input(true)
 	set_fixed_process(true)
-#Ключовий масив, в котрому зберігаються дані про положення кольорових кульок
-	mainArray = [ 'r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7',
-				 'o1', 'o2', 'o3', 'o4', 'o5', 'o6', 'o7',
-				 'y1', 'y2', 'y3', 'y4', 'y5', 'y6', 'y7',
-				 'g1', 'g2', 'g3', 'g4', 'g5', 'g6', 'g7',
-				 'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7',
-				 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', ''] 
-#Створення кульок відповідно до ключового масиву
-	generateMainArray()
-	#shuffleBalls()
+	
+	setGameSize(get_node("/root/global").gameSize)
+#	generateMainArray()
+	shuffleBalls()
 	updateBalls()
 	
 #Обробка подій (натискання клавіш)
@@ -76,6 +90,17 @@ func _input(event):
 		shuffleBalls()
 		updateBalls()
 		ballPressed = false
+	
+	if event.is_action_released("ui_right"): 
+		setGameSize(Vector2(gameSize.x + 1, gameSize.y))
+	if event.is_action_released("ui_left"): 
+		setGameSize(Vector2(gameSize.x - 1, gameSize.y))
+		
+	if event.is_action_released("ui_down"): 
+		setGameSize(Vector2(gameSize.x, gameSize.y + 1))
+	if event.is_action_released("ui_up"): 
+		setGameSize(Vector2(gameSize.x, gameSize.y - 1))
+
 		
 	if event.is_action_released("LMB"):
 		if shiftPressed.y != 0:
@@ -91,7 +116,7 @@ func _input(event):
 
 #Створення однієї кульки за заданими параметрами
 func createBall(name):
-	var balls = get_node("balls")
+	var balls = get_node("game/balls")
 	var ball = ballObj.instance()
 	ball.set_name(name)
 	balls.add_child(ball)
@@ -102,21 +127,21 @@ func createBall(name):
 	
 #Перефарбування кульок у відповідність до зазначених в ключовому масиві кольорів
 func toColor(colorMark):
-	var color = Color(1,0,1,1)
+	var color = COLORS['black']
 	if not colorMark: 			#Порожня комірка
-		color = Color(1,1,0,1)
+		color = COLORS['empty']
 	elif colorMark == 'r':		#Червоні
-		color = Color(1,0,0,1)
+		color = COLORS['red']
 	elif colorMark == 'g':		#Зелені
-		color = Color(0,0.6,0,1)
+		color = COLORS['green']
 	elif colorMark == 'b':		#Сині
-		color = Color(0,0,1,1)
+		color = COLORS['blue']
 	elif colorMark == 'o':		#Помаранчеві
-		color = Color(1.0, 0.5, 0.0, 1.0)
+		color = COLORS['orange']
 	elif colorMark == 'y':		#Жовті
-		color = Color(0.65, 0.65, 0.0, 1.0)
+		color = COLORS['yellow']
 	elif colorMark == 'p':		#Фіолетові
-		color = Color(0.65, 0.0, 0.65, 1.0)
+		color = COLORS['purple']
 	return color
 
 #Зміщення рядка ліворуч або праворуч
@@ -168,9 +193,9 @@ func updateBalls():
 		var col = int(index / gameSize.y)
 		var row = (index - col * gameSize.y)
 		var name = "b" + mainArray[index]
-		if not get_node("balls/" + name):
+		if not get_node("game/balls/" + name):
 			createBall(name)
-		get_node("balls" + "/b" + mainArray[index]).set_pos(Vector2(col * (BALL_SIZE), row * (BALL_SIZE)))
+		get_node("game/balls/b" + mainArray[index]).set_pos(Vector2(col * (BALL_SIZE), row * (BALL_SIZE)))
 		index += 1
 
 #Обробка сигналів кнопок
@@ -195,8 +220,6 @@ func cutCol(ball):
 		
 		i += dir
 	column[ball.y] = ''
-
-
 	for b in range(gameSize.y):
 		i = b + (ball.x * gameSize.y)
 		mainArray[i] = column[b]

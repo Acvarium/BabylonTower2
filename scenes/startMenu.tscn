@@ -1,0 +1,84 @@
+[gd_scene load_steps=9 format=1]
+
+[ext_resource path="res://scripts/2d/startMenu.gd" type="Script" id=1]
+[ext_resource path="res://textures/2d/bg.jpg" type="Texture" id=2]
+[ext_resource path="res://textures/2d/menuButton010.png" type="Texture" id=3]
+[ext_resource path="res://textures/2d/menuButton011.png" type="Texture" id=4]
+[ext_resource path="res://textures/2d/menuButton020.png" type="Texture" id=5]
+[ext_resource path="res://textures/2d/menuButton021.png" type="Texture" id=6]
+[ext_resource path="res://textures/2d/menuButton030.png" type="Texture" id=7]
+[ext_resource path="res://textures/2d/menuButton031.png" type="Texture" id=8]
+
+[node name="main" type="Node2D"]
+
+script/script = ExtResource( 1 )
+
+[node name="bg" type="TextureFrame" parent="."]
+
+rect/scale = Vector2( 0.67, 0.58 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 768.0
+margin/bottom = 1200.0
+texture = ExtResource( 2 )
+stretch_mode = 0
+
+[node name="easyButton" type="TextureButton" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 79.0
+margin/top = 174.0
+margin/right = 429.0
+margin/bottom = 259.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 3 )
+textures/hover = ExtResource( 4 )
+
+[node name="middleBitton" type="TextureButton" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 71.0
+margin/top = 286.0
+margin/right = 431.0
+margin/bottom = 371.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 5 )
+textures/hover = ExtResource( 6 )
+
+[node name="hardButton" type="TextureButton" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 74.0
+margin/top = 404.0
+margin/right = 439.0
+margin/bottom = 491.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 7 )
+textures/hover = ExtResource( 8 )
+
+[connection signal="pressed" from="easyButton" to="." method="_on_easyButton_pressed"]
+
+[connection signal="pressed" from="middleBitton" to="." method="_on_middleBitton_pressed"]
+
+[connection signal="pressed" from="hardButton" to="." method="_on_hardButton_pressed"]
+
+
