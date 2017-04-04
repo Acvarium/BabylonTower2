@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://scripts/2d/main.gd" type="Script" id=1]
 [ext_resource path="res://textures/2d/bg.jpg" type="Texture" id=2]
-[ext_resource path="res://objects/arrow.tscn" type="PackedScene" id=3]
+[ext_resource path="res://textures/2d/arrow_020.png" type="Texture" id=3]
+[ext_resource path="res://textures/2d/arrow_021.png" type="Texture" id=4]
+[ext_resource path="res://objects/arrow.tscn" type="PackedScene" id=5]
 
 [node name="main" type="Node2D"]
 
@@ -23,6 +25,23 @@ texture = ExtResource( 2 )
 stretch_mode = 0
 __meta__ = { "_edit_lock_":true }
 
+[node name="back" type="TextureButton" parent="."]
+
+rect/scale = Vector2( 0.25, 0.25 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 608.0
+margin/right = 256.0
+margin/bottom = 864.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 3 )
+textures/hover = ExtResource( 4 )
+
 [node name="game" type="Node2D" parent="."]
 
 [node name="balls" type="Node2D" parent="game"]
@@ -31,20 +50,21 @@ transform/pos = Vector2( 96, 64 )
 
 [node name="arrows" type="Node2D" parent="game"]
 
+editor/display_folded = true
 visibility/visible = false
 
 [node name="left" type="Node2D" parent="game/arrows"]
 
 transform/pos = Vector2( 32, 64 )
 
-[node name="L" parent="game/arrows/left" instance=ExtResource( 3 )]
+[node name="L" parent="game/arrows/left" instance=ExtResource( 5 )]
 
 margin/left = -32.0
 margin/top = -32.0
 margin/right = 224.0
 margin/bottom = 224.0
 
-[node name="L 2" parent="game/arrows/left" instance=ExtResource( 3 )]
+[node name="L 2" parent="game/arrows/left" instance=ExtResource( 5 )]
 
 margin/left = -32.0
 margin/top = 32.0
@@ -52,7 +72,7 @@ margin/right = 224.0
 margin/bottom = 288.0
 mov = -2
 
-[node name="L 3" parent="game/arrows/left" instance=ExtResource( 3 )]
+[node name="L 3" parent="game/arrows/left" instance=ExtResource( 5 )]
 
 margin/left = -32.0
 margin/top = 96.0
@@ -60,7 +80,7 @@ margin/right = 224.0
 margin/bottom = 352.0
 mov = -3
 
-[node name="L 4" parent="game/arrows/left" instance=ExtResource( 3 )]
+[node name="L 4" parent="game/arrows/left" instance=ExtResource( 5 )]
 
 margin/left = -32.0
 margin/top = 160.0
@@ -68,7 +88,7 @@ margin/right = 224.0
 margin/bottom = 416.0
 mov = -4
 
-[node name="L 5" parent="game/arrows/left" instance=ExtResource( 3 )]
+[node name="L 5" parent="game/arrows/left" instance=ExtResource( 5 )]
 
 margin/left = -32.0
 margin/top = 224.0
@@ -76,7 +96,7 @@ margin/right = 224.0
 margin/bottom = 480.0
 mov = -5
 
-[node name="L 6" parent="game/arrows/left" instance=ExtResource( 3 )]
+[node name="L 6" parent="game/arrows/left" instance=ExtResource( 5 )]
 
 margin/left = -32.0
 margin/top = 288.0
@@ -84,7 +104,7 @@ margin/right = 224.0
 margin/bottom = 544.0
 mov = -6
 
-[node name="L 7" parent="game/arrows/left" instance=ExtResource( 3 )]
+[node name="L 7" parent="game/arrows/left" instance=ExtResource( 5 )]
 
 margin/left = -32.0
 margin/top = 352.0
@@ -92,7 +112,7 @@ margin/right = 224.0
 margin/bottom = 608.0
 mov = -7
 
-[node name="L 8" parent="game/arrows/left" instance=ExtResource( 3 )]
+[node name="L 8" parent="game/arrows/left" instance=ExtResource( 5 )]
 
 margin/left = -32.0
 margin/top = 416.0
@@ -104,7 +124,7 @@ mov = -8
 
 transform/pos = Vector2( 480, 64 )
 
-[node name="R" parent="game/arrows/right" instance=ExtResource( 3 )]
+[node name="R" parent="game/arrows/right" instance=ExtResource( 5 )]
 
 rect/scale = Vector2( -0.25, 0.25 )
 margin/left = 32.0
@@ -113,7 +133,7 @@ margin/right = 288.0
 margin/bottom = 224.0
 mov = 1
 
-[node name="R 2" parent="game/arrows/right" instance=ExtResource( 3 )]
+[node name="R 2" parent="game/arrows/right" instance=ExtResource( 5 )]
 
 rect/scale = Vector2( -0.25, 0.25 )
 margin/left = 32.0
@@ -122,7 +142,7 @@ margin/right = 288.0
 margin/bottom = 288.0
 mov = 2
 
-[node name="R 3" parent="game/arrows/right" instance=ExtResource( 3 )]
+[node name="R 3" parent="game/arrows/right" instance=ExtResource( 5 )]
 
 rect/scale = Vector2( -0.25, 0.25 )
 margin/left = 32.0
@@ -131,7 +151,7 @@ margin/right = 288.0
 margin/bottom = 352.0
 mov = 3
 
-[node name="R 4" parent="game/arrows/right" instance=ExtResource( 3 )]
+[node name="R 4" parent="game/arrows/right" instance=ExtResource( 5 )]
 
 rect/scale = Vector2( -0.25, 0.25 )
 margin/left = 32.0
@@ -140,7 +160,7 @@ margin/right = 288.0
 margin/bottom = 416.0
 mov = 4
 
-[node name="R 5" parent="game/arrows/right" instance=ExtResource( 3 )]
+[node name="R 5" parent="game/arrows/right" instance=ExtResource( 5 )]
 
 rect/scale = Vector2( -0.25, 0.25 )
 margin/left = 32.0
@@ -149,7 +169,7 @@ margin/right = 288.0
 margin/bottom = 480.0
 mov = 5
 
-[node name="R 6" parent="game/arrows/right" instance=ExtResource( 3 )]
+[node name="R 6" parent="game/arrows/right" instance=ExtResource( 5 )]
 
 rect/scale = Vector2( -0.25, 0.25 )
 margin/left = 32.0
@@ -158,7 +178,7 @@ margin/right = 288.0
 margin/bottom = 544.0
 mov = 6
 
-[node name="R 7" parent="game/arrows/right" instance=ExtResource( 3 )]
+[node name="R 7" parent="game/arrows/right" instance=ExtResource( 5 )]
 
 rect/scale = Vector2( -0.25, 0.25 )
 margin/left = 32.0
@@ -167,7 +187,7 @@ margin/right = 288.0
 margin/bottom = 608.0
 mov = 7
 
-[node name="R 8" parent="game/arrows/right" instance=ExtResource( 3 )]
+[node name="R 8" parent="game/arrows/right" instance=ExtResource( 5 )]
 
 rect/scale = Vector2( -0.25, 0.25 )
 margin/left = 32.0
@@ -175,5 +195,23 @@ margin/top = 416.0
 margin/right = 288.0
 margin/bottom = 672.0
 mov = 8
+
+[node name="txt" type="Label" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+text = "123, 321"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[connection signal="pressed" from="back" to="." method="_on_back_pressed"]
 
 

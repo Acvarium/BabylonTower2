@@ -1,6 +1,5 @@
 extends Node
 
-var current_scene = null
 
 func _ready():
 	set_process_input(true)

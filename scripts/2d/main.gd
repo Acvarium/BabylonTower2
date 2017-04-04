@@ -46,13 +46,19 @@ func generateMainArray():
 func _fixed_process(delta):
 	var mouse = get_viewport().get_mouse_pos()
 	var ballPressedPos = findBallByName(ballPressedName)
+	var ss = str(mouse)
+	var scale = get_node("game").get_scale().x
+	ss += " __" + str(ballPressedPos)
 	if ballPressed:
 		var mouseOnGrid = Vector2(0,0)
 		var onGrid = Vector2(0,0)
-		mouseOnGrid.x = int((mouse.x - ballPressedPos.x) / 64) - 1 
-		mouseOnGrid.y = int((mouse.y - 32 - ballPressedPos.y) / 64)
-		onGrid.x = (int((mouse.x - ballPressedPos.x) / 64) - 1) - ballPressedPos.x
-		onGrid.y = int((mouse.y - 32 - ballPressedPos.y) / 64) - ballPressedPos.y
+		
+		mouseOnGrid.x = int((mouse.x/scale - ballPressedPos.x) / 64) - 1 
+		mouseOnGrid.y = int((mouse.y/scale - 32 - ballPressedPos.y) / 64)
+		ss += " **" + str(mouseOnGrid)
+		onGrid.x = (int((mouse.x/scale - ballPressedPos.x) / 64) - 1) - ballPressedPos.x
+		onGrid.y = int((mouse.y/scale - 32 - ballPressedPos.y) / 64) - ballPressedPos.y
+		ss += " " + str(onGrid)
 		if onGrid.x != 0:
 			var ballsToShift = []
 
@@ -73,7 +79,9 @@ func _fixed_process(delta):
 					pos.x += 64 * gameSize.x
 				b.set_pos(pos)
 			shiftPressed = Vector2(ballPressedPos.y, onGrid.x)
-
+	ss += " sc=" + str(scale)
+	get_node("txt").set_text(ss)
+	
 func _ready():
 	randomize()
 	set_process_input(true)
@@ -231,3 +239,8 @@ func _signal_ballClicked(name):
 	else:
 		ballPressedName = ''
 	ballPressed = true
+
+
+func _on_back_pressed():
+	get_node("/root/global").goto_scene("res://scenes/startMenu.tscn")
+
