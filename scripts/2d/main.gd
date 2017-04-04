@@ -2,7 +2,6 @@ extends Node2D
 var mainArray = []
 const BALL_SIZE = 64
 var ballObj = load("res://objects/ball.tscn")
-var slot = 0
 var ballPressed = false
 var ballPressedName = ''
 var shiftPressed = Vector2(0,0)
@@ -20,16 +19,13 @@ func _fixed_process(delta):
 		mouseOnGrid.x = int((mouse.x - ballPressedPos.x) / 64) - 1 
 		mouseOnGrid.y = int((mouse.y - 32 - ballPressedPos.y) / 64)
 
-
 		onGrid.x = (int((mouse.x - ballPressedPos.x) / 64) - 1) - ballPressedPos.x
 		onGrid.y = int((mouse.y - 32 - ballPressedPos.y) / 64) - ballPressedPos.y
-
 
 		if onGrid.x != 0:
 			var ballsToShift = []
 			if ballPressedPos.y > 6:
 				ballsToShift.append(get_node("balls/b" + ballPressedName))
-
 			else:
 				for i in range(6):
 					var b = get_node("balls/b" + mainArray[i * 7 + ballPressedPos.y])
@@ -60,8 +56,7 @@ func _ready():
 				 'y1', 'y2', 'y3', 'y4', 'y5', 'y6', 'y7',
 				 'g1', 'g2', 'g3', 'g4', 'g5', 'g6', 'g7',
 				 'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7',
-				 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 
-				 ''] 
+				 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', ''] 
 #Створення кульок відповідно до ключового масиву
 	shuffleBalls()
 	updateBalls()
@@ -72,16 +67,16 @@ func _input(event):
 		shuffleBalls()
 		updateBalls()
 	if event.is_action_released("LMB"):
-		ballPressed = false
 
 		if shiftPressed.y != 0:
 			shiftRow(shiftPressed.x, shiftPressed.y)
 		else:
-			if findBallByName('').x == findBallByName(ballPressedName).x:
+			if findBallByName('').x == findBallByName(ballPressedName).x and ballPressed:
 
 				var sCol = findBallByName(ballPressedName).x
 				cutCol(findBallByName(ballPressedName))
 				updateBalls()
+		ballPressed = false
 		updateBalls()
 		shiftPressed = Vector2(0,0)
 
@@ -98,9 +93,9 @@ func createBall(name):
 	
 #Перефарбування кульок у відповідність до зазначених в ключовому масиві кольорів
 func toColor(colorMark):
-	var color = Color(1,1,1,1)
+	var color = Color(1,0,1,1)
 	if not colorMark: 			#Порожня комірка
-		color = Color(0,0,0,1)
+		color = Color(1,1,0,1)
 	elif colorMark == 'r':		#Червоні
 		color = Color(1,0,0,1)
 	elif colorMark == 'g':		#Зелені
@@ -117,13 +112,6 @@ func toColor(colorMark):
 
 #Зміщення рядка ліворуч або праворуч
 func shiftRow(row, dir):
-	if abs(row) == 7:
-		slot += dir
-		if slot < 0:
-			slot = 5
-		elif slot > 5:
-			slot = 0
-		return 0
 	var tempRow = []
 	for i in range(6):
 		tempRow.append(mainArray[i * 7 + row])
@@ -149,8 +137,6 @@ func findBallByName(name):
 		if b == name:
 			var col = int(index / 7)
 			var row = (index - col * 7)
-			if index == mainArray.size() - 1:
-				return(Vector2(slot,7))
 			return(Vector2(col,row))
 		index += 1
 
@@ -163,7 +149,7 @@ func shuffleBalls():
 		shuffledList.append(mainArray[indexList[x]])
 		indexList.remove(x)
 	mainArray = shuffledList
-	slot = randi()%6
+
 
 #Обновлення позицій кульок
 func updateBalls():
@@ -175,16 +161,13 @@ func updateBalls():
 		var name = "b" + mainArray[index]
 		if not get_node("balls/" + name):
 			createBall(name)
-		if index < mainArray.size() - 1:
-			get_node("balls" + "/b" + mainArray[index]).set_pos(Vector2(col * (BALL_SIZE), row * (BALL_SIZE)))
-		else:
-			get_node("balls" + "/b" + mainArray[index]).set_pos(Vector2(slot * BALL_SIZE, 7 * BALL_SIZE))	
+		get_node("balls" + "/b" + mainArray[index]).set_pos(Vector2(col * (BALL_SIZE), row * (BALL_SIZE)))
 		index += 1
 
 #Обробка сигналів кнопок
 func _signal_arrow(rowDir):
-		shiftRow(abs(rowDir) - 1, sign(int(rowDir)))
-		updateBalls()
+	shiftRow(abs(rowDir) - 1, sign(int(rowDir)))
+	updateBalls()
 
 func cutCol(ball):
 	var column = []
@@ -192,8 +175,6 @@ func cutCol(ball):
 	for b in range(7):
 		i = b + (ball.x * 7)
 		column.append(mainArray[i])
-	if slot == ball.x:
-		column.append(mainArray[mainArray.size() - 1])
 	var empty = findBallByName('')
 
 	var dir = 1
@@ -210,8 +191,6 @@ func cutCol(ball):
 	for b in range(7):
 		i = b + (ball.x * 7)
 		mainArray[i] = column[b]
-	if slot == ball.x:
-		mainArray[mainArray.size() - 1] = column[column.size() - 1]
 
 func _signal_ballClicked(name):
 	if name != 'b':
