@@ -9,21 +9,21 @@ var shiftPressed = Vector2(0,0)
 
 func _fixed_process(delta):
 	var mouse = get_viewport().get_mouse_pos()
-	var ss = str(mouse)
+
 	var ballPressedPos = findBallByName(ballPressedName)
 	
 	if ballPressed:
-		ss += " __" + str(ballPressedPos)
+
 		var mouseOnGrid = Vector2(0,0)
 		var onGrid = Vector2(0,0)
 
 		mouseOnGrid.x = int((mouse.x - ballPressedPos.x) / 64) - 1 
 		mouseOnGrid.y = int((mouse.y - 32 - ballPressedPos.y) / 64)
-		ss += " **" + str(mouseOnGrid)
+
 
 		onGrid.x = (int((mouse.x - ballPressedPos.x) / 64) - 1) - ballPressedPos.x
 		onGrid.y = int((mouse.y - 32 - ballPressedPos.y) / 64) - ballPressedPos.y
-		ss += " " + str(onGrid)
+
 
 		if onGrid.x != 0:
 			var ballsToShift = []
@@ -49,9 +49,6 @@ func _fixed_process(delta):
 					pos.x += 64 * 6
 				b.set_pos(pos)
 			shiftPressed = Vector2(ballPressedPos.y, onGrid.x)
-
-	get_node("txt").set_text(ss)
-	pass
 
 func _ready():
 	randomize()
@@ -156,7 +153,6 @@ func findBallByName(name):
 				return(Vector2(slot,7))
 			return(Vector2(col,row))
 		index += 1
-
 
 #Перемішати кульки
 func shuffleBalls():
