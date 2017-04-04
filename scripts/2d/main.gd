@@ -6,13 +6,23 @@ var ballPressed = false
 var ballPressedName = ''
 var shiftPressed = Vector2(0,0)
 
+var gameSize = Vector2(6,8)
+const COLORS = ['r', 'g', 'b', 'p', 'y', 'o']
+
+func setGameSize(gs):
+	gameSize = gs
+	
+func generateMainArray():
+	mainArray = []
+	for i in range(gameSize.x):
+		for j in range(gameSize.y):
+			mainArray.append(str(COLORS[i] + str(j)))
+	mainArray[mainArray.size() - 1] = ''
+
 func _fixed_process(delta):
 	var mouse = get_viewport().get_mouse_pos()
-
 	var ballPressedPos = findBallByName(ballPressedName)
-	
 	if ballPressed:
-
 		var mouseOnGrid = Vector2(0,0)
 		var onGrid = Vector2(0,0)
 
@@ -24,30 +34,28 @@ func _fixed_process(delta):
 
 		if onGrid.x != 0:
 			var ballsToShift = []
-			if ballPressedPos.y > 6:
-				ballsToShift.append(get_node("balls/b" + ballPressedName))
-			else:
-				for i in range(6):
-					var b = get_node("balls/b" + mainArray[i * 7 + ballPressedPos.y])
-					ballsToShift.append(b)
+
+			for i in range(gameSize.x):
+				var b = get_node("balls/b" + mainArray[i * gameSize.y + ballPressedPos.y])
+				ballsToShift.append(b)
 			for i in range(ballsToShift.size()):
 
 				var b = get_node("balls/b" + mainArray[mainArray.size() - 1])
-				if ballPressedPos.y < 7:
-					b = get_node("balls/b" + mainArray[i * 7 + ballPressedPos.y])
+				if ballPressedPos.y < gameSize.y:
+					b = get_node("balls/b" + mainArray[i * gameSize.y + ballPressedPos.y])
 				var pos = b.get_pos()
 				pos.x = i * 64 + mouseOnGrid.x * 64 - ballPressedPos.x * 64
-				if ballPressedPos.y > 6:
-					pos.x = i * 64 + mouseOnGrid.x * 64
-				if pos.x > 64 * 6 - 32:
-					pos.x -= 64 * 6
+
+				if pos.x > 64 * gameSize.x - 32:
+					pos.x -= 64 * gameSize.x
 				elif pos.x < 0:
-					pos.x += 64 * 6
+					pos.x += 64 * gameSize.x
 				b.set_pos(pos)
 			shiftPressed = Vector2(ballPressedPos.y, onGrid.x)
 
 func _ready():
 	randomize()
+
 	set_process_input(true)
 	set_fixed_process(true)
 #Ключовий масив, в котрому зберігаються дані про положення кольорових кульок
@@ -58,7 +66,8 @@ func _ready():
 				 'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7',
 				 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', ''] 
 #Створення кульок відповідно до ключового масиву
-	shuffleBalls()
+	generateMainArray()
+	#shuffleBalls()
 	updateBalls()
 	
 #Обробка подій (натискання клавіш)
@@ -66,13 +75,13 @@ func _input(event):
 	if event.is_action_released("space"): 
 		shuffleBalls()
 		updateBalls()
+		ballPressed = false
+		
 	if event.is_action_released("LMB"):
-
 		if shiftPressed.y != 0:
 			shiftRow(shiftPressed.x, shiftPressed.y)
 		else:
 			if findBallByName('').x == findBallByName(ballPressedName).x and ballPressed:
-
 				var sCol = findBallByName(ballPressedName).x
 				cutCol(findBallByName(ballPressedName))
 				updateBalls()
@@ -113,8 +122,8 @@ func toColor(colorMark):
 #Зміщення рядка ліворуч або праворуч
 func shiftRow(row, dir):
 	var tempRow = []
-	for i in range(6):
-		tempRow.append(mainArray[i * 7 + row])
+	for i in range(gameSize.x):
+		tempRow.append(mainArray[i * gameSize.y + row])
 	var tail
 	if dir < 0:
 		for j in range(abs(dir)):
@@ -128,15 +137,15 @@ func shiftRow(row, dir):
 			for i in range((tempRow.size() - 1), 0 , -1):
 				tempRow[i] = tempRow[i - 1]
 			tempRow[0] = tail
-	for i in range(6):
-		mainArray[i * 7 + row] = tempRow[i]
+	for i in range(gameSize.x):
+		mainArray[i * gameSize.y + row] = tempRow[i]
 		
 func findBallByName(name):
 	var index = 0
 	for b in mainArray:
 		if b == name:
-			var col = int(index / 7)
-			var row = (index - col * 7)
+			var col = int(index / gameSize.y)
+			var row = (index - col * gameSize.y)
 			return(Vector2(col,row))
 		index += 1
 
@@ -156,8 +165,8 @@ func updateBalls():
 	var index = 0
 	var table = []
 	for b in mainArray:
-		var col = int(index / 7)
-		var row = (index - col * 7)
+		var col = int(index / gameSize.y)
+		var row = (index - col * gameSize.y)
 		var name = "b" + mainArray[index]
 		if not get_node("balls/" + name):
 			createBall(name)
@@ -172,8 +181,8 @@ func _signal_arrow(rowDir):
 func cutCol(ball):
 	var column = []
 	var i
-	for b in range(7):
-		i = b + (ball.x * 7)
+	for b in range(gameSize.y):
+		i = b + (ball.x * gameSize.y)
 		column.append(mainArray[i])
 	var empty = findBallByName('')
 
@@ -188,8 +197,8 @@ func cutCol(ball):
 	column[ball.y] = ''
 
 
-	for b in range(7):
-		i = b + (ball.x * 7)
+	for b in range(gameSize.y):
+		i = b + (ball.x * gameSize.y)
 		mainArray[i] = column[b]
 
 func _signal_ballClicked(name):
