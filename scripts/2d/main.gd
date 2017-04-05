@@ -34,7 +34,6 @@ func setGameSize(size):
 #		else:
 		get_node("game").set_scale(Vector2(8 / (gameSize.x + 2), 8 / (gameSize.x + 2)))
 
-
 func generateMainArray():
 	mainArray = []
 	print(gameSize)
@@ -59,14 +58,14 @@ func _fixed_process(delta):
 		onGrid.x = (int((mouse.x/scale - ballPressedPos.x) / 64) - 1) - ballPressedPos.x
 		onGrid.y = int((mouse.y/scale - 32 - ballPressedPos.y) / 64) - ballPressedPos.y
 		ss += " " + str(onGrid)
-		if onGrid.x != 0:
-			var ballsToShift = []
-
+		if onGrid.x != 0 or onGrid.y != 0:
+			var rowToShift = []
+			var colToCut = []
+			
 			for i in range(gameSize.x):
 				var b = get_node("game/balls/b" + mainArray[i * gameSize.y + ballPressedPos.y])
-				ballsToShift.append(b)
-			for i in range(ballsToShift.size()):
-
+				rowToShift.append(b)
+			for i in range(rowToShift.size()):
 				var b = get_node("game/balls/b" + mainArray[mainArray.size() - 1])
 				if ballPressedPos.y < gameSize.y:
 					b = get_node("game/balls/b" + mainArray[i * gameSize.y + ballPressedPos.y])
@@ -79,6 +78,12 @@ func _fixed_process(delta):
 					pos.x += 64 * gameSize.x
 				b.set_pos(pos)
 			shiftPressed = Vector2(ballPressedPos.y, onGrid.x)
+			var empty = findBallByName('')
+			if mouseOnGrid.x == empty.x and onGrid.y != 0:
+				if (ballPressedPos.y > empty.y and onGrid.y < 0):
+					ss += (' Cut down ')
+				elif (ballPressedPos.y < empty.y and onGrid.y > 0):
+					ss += (' Cut Up')
 	ss += " sc=" + str(scale)
 	get_node("txt").set_text(ss)
 	
