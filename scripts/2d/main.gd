@@ -43,7 +43,7 @@ func generateMainArray():
 	mainArray[mainArray.size() - 1] = ''
 
 func _fixed_process(delta):
-	var mouse = get_viewport().get_mouse_pos()
+	var mouse = get_local_mouse_pos() #get_viewport().get_mouse_pos()
 	var ballPressedPos = findBallByName(ballPressedName)
 	var ss = str(mouse)
 	var scale = get_node("game").get_scale().x
@@ -61,6 +61,13 @@ func _fixed_process(delta):
 		if onGrid.x != 0 or onGrid.y != 0:
 			var rowToShift = []
 			var colToCut = []
+			
+			var selector = get_node("game/hSelector")
+			var selectorPos = selector.get_pos()
+			selectorPos.y = (ballPressedPos.y + 1) * 64 - 32
+			selector.set_pos(selectorPos)
+			selector.show()
+			
 			
 			for i in range(gameSize.x):
 				var b = get_node("game/balls/b" + mainArray[i * gameSize.y + ballPressedPos.y])
@@ -118,6 +125,8 @@ func _input(event):
 	if event.is_action_released("LMB"):
 		if shiftPressed.y != 0:
 			shiftRow(shiftPressed.x, shiftPressed.y)
+			get_node("game/hSelector").hide()
+			
 		else:
 			if findBallByName('').x == findBallByName(ballPressedName).x and ballPressed:
 				var sCol = findBallByName(ballPressedName).x
