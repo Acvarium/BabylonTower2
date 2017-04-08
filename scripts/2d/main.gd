@@ -51,22 +51,21 @@ func _fixed_process(delta):
 		var mouseOnGrid = Vector2(0,0)
 		var onGrid = Vector2(0,0)
 		
-		mouseOnGrid.x = int((mouse.x/scale - ballPressedPos.x) / 64) - 1 
-		mouseOnGrid.y = int((mouse.y/scale - 32 - ballPressedPos.y) / 64)
+		mouseOnGrid.x = int((mouse.x/scale - ballPressedPos.x) / BALL_SIZE) - 1 
+		mouseOnGrid.y = int((mouse.y/scale - 32 - ballPressedPos.y) / BALL_SIZE)
 		ss += " **" + str(mouseOnGrid)
-		onGrid.x = (int((mouse.x/scale - ballPressedPos.x) / 64) - 1) - ballPressedPos.x
-		onGrid.y = int((mouse.y/scale - 32 - ballPressedPos.y) / 64) - ballPressedPos.y
+		onGrid.x = (int((mouse.x/scale - ballPressedPos.x) / BALL_SIZE) - 1) - ballPressedPos.x
+		onGrid.y = int((mouse.y/scale - 32 - ballPressedPos.y) / BALL_SIZE) - ballPressedPos.y
 		ss += " " + str(onGrid)
-		if onGrid.x != 0 or onGrid.y != 0:
+		if onGrid.x != 0:
 			var rowToShift = []
 			var colToCut = []
 			
 			var selector = get_node("game/hSelector")
 			var selectorPos = selector.get_pos()
-			selectorPos.y = (ballPressedPos.y + 1) * 64 - 32
+			selectorPos.y = (ballPressedPos.y + 1) * BALL_SIZE - BALL_SIZE/2
 			selector.set_pos(selectorPos)
 			selector.show()
-			
 
 			for i in range(gameSize.x):
 				var b = get_node("game/balls/b" + mainArray[i * gameSize.y + ballPressedPos.y])
@@ -81,9 +80,9 @@ func _fixed_process(delta):
 				pos.x = ((int(i + mouseOnGrid.x - ballPressedPos.x) % int(gameSize.x)))
 				if pos.x < 0:
 					pos.x = int(pos.x + gameSize.x) % int(gameSize.x)
-				pos.x = pos.x * 64
+				pos.x = pos.x * BALL_SIZE
 				b.set_pos(pos)
-			ss += "pos_x " + str(get_node("game/balls/b" + ballPressedName).get_pos().x / 64)
+			ss += "pos_x " + str(get_node("game/balls/b" + ballPressedName).get_pos().x / BALL_SIZE)
 			shiftPressed = Vector2(ballPressedPos.y, onGrid.x)
 			var empty = findBallByName('')
 			if mouseOnGrid.x == empty.x and onGrid.y != 0:
