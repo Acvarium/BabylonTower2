@@ -1,15 +1,19 @@
 extends Node2D
-var mainArray = []
-const BALL_SIZE = 64
-var ballObj = load("res://objects/ball.tscn")
-var ballPressed = false
-var ballPressedName = ''
-var shiftPressed = Vector2(0,0)
+var mainArray = []  #Основний одновимірний масив, в котрому зберігається розташування всіх кульок
+var ballObj = load("res://objects/ball.tscn") #Інстанцінг об'єкту кульки
+var arrowObj = load("res://objects/arrow.tscn") #Інстанцінг об'єкту кульки
 
-const MAX_SIZE = Vector2(6,9)
-var gameSize = Vector2(2,2)
+var ballPressed = false #Булева змінна, в якій визначається, чи було натиснуто на яку небудь кульку
+var ballPressedName = '' #Ім'я натиснутої кульки
+var shiftPressed = Vector2(0,0) #Вектор, що зберігає колонку, напрямок і величину зміщення кульок
+var gameSize = Vector2(2,2) #Розмір ігрового поля (кількість кульок по горизонталі і вертикалі
 
+const BALL_SIZE = 64	#Величина, на яку потрібно зав'язати розмірність елементів гри
+const MAX_SIZE = Vector2(6,9) #Максимальний розмір ігрового поля
+
+#Масив кодових символів для кольорів кульок
 const COLORS_NAMES = ['r', 'g', 'b', 'o', 'y', 'p']
+#Таблиця кольорів. В ній немає особливої необхідності, але мені видався такий варінат простішим, для осмислення
 const COLORS = {
 'black' : Color(1,1,1,1),						#Чорний					0
 'empty' : Color(0,0,0,0),						#Порожня комірка		1
@@ -21,27 +25,21 @@ const COLORS = {
 "purple" : Color(0.65, 0.0, 0.65, 1.0),			#Фіолетові				7
 }
 
-func setGameSize(size):
-	if size.x <= MAX_SIZE.x and size.y <= MAX_SIZE.y and size.x > 1 and size.y > 1:
-		for b in get_node("game/balls").get_children():
-			b.free()
-		
-		gameSize = size
-		generateMainArray()
-		updateBalls()
-#		if gameSize.y > gameSize.x:
-#			get_node("game").set_scale(Vector2(6 / (gameSize.y), 6 / (gameSize.y)))
-#		else:
-		get_node("game").set_scale(Vector2(8 / (gameSize.x + 2), 8 / (gameSize.x + 2)))
 
-func generateMainArray():
-	mainArray = []
-	print(gameSize)
-	for i in range(gameSize.x):
-		for j in range(gameSize.y):
-			mainArray.append(str(COLORS_NAMES[i] + str(j)))
-	mainArray[mainArray.size() - 1] = ''
+#-------------------------------------------------------------
+func _ready():
+	randomize()
+	set_process_input(true)
+	set_fixed_process(true)
+	setGameSize(get_node("/root/global").gameSize)
+#	generateMainArray()
+	shuffleBalls()
+	updateBalls()
+#-------------------------------------------------------------
 
+
+#===================================================================
+#===================================================================
 func _fixed_process(delta):
 	var mouse = get_local_mouse_pos() #get_viewport().get_mouse_pos()
 	var ballPressedPos = findBallByName(ballPressedName)
@@ -76,6 +74,7 @@ func _fixed_process(delta):
 				var b = get_node("game/balls/b" + mainArray[mainArray.size() - 1])
 				if ballPressedPos.y < gameSize.y:
 					b = get_node("game/balls/b" + mainArray[i * gameSize.y + ballPressedPos.y])
+	
 				var pos = b.get_pos()
 
 				pos.x = ((int(i + mouseOnGrid.x - ballPressedPos.x) % int(gameSize.x)))
@@ -91,19 +90,64 @@ func _fixed_process(delta):
 					ss += (' Cut down ')
 				elif (ballPressedPos.y < empty.y and onGrid.y > 0):
 					ss += (' Cut Up')
+			get_node("txt").set_text(ss)
+#===================================================================
+#===================================================================
 
-	get_node("txt").set_text(ss)
+
+#Встановлення розміру ігрового поля та маштабування ігрових елементів, для коректного заповнення
+func setGameSize(size):
+	if size.x <= MAX_SIZE.x and size.y <= MAX_SIZE.y and size.x > 1 and size.y > 1:
+		for b in get_node("game/balls").get_children():
+			b.free()
+		gameSize = size
+		generateMainArray() #Виклик функції для генерації основного ігрового масиву
+		updateBalls()	#Оновлення/створення кульок
+		
+		var rightButtons = get_node("game/arrows/right")
+		var leftButtons = get_node("game/arrows/left")
+
+# Видалення всіх точок
+		for button in rightButtons.get_children():
+			button.free()
+		for button in leftButtons.get_children():
+			button.free()
+
+		for i in range(gameSize.y):
+			var lButton = arrowObj.instance()
+			var rButton = arrowObj.instance()
+			#button.set_name(name)
+			leftButtons.add_child(lButton)
+			rightButtons.add_child(rButton)
+			lButton.set_pos(Vector2(0,i * BALL_SIZE))
+			rButton.set_pos(Vector2(0,i * BALL_SIZE))
+			lButton.set_name(str('L' + str(i)))
+			rButton.set_name(str('R' + str(i)))
+			rButton.flip(true)
+			
+		var rbPos = rightButtons.get_pos()
+		rbPos.x = (gameSize.x + 2)* BALL_SIZE - BALL_SIZE / 2
+		rightButtons.set_pos(rbPos)
+
+#		if gameSize.y > gameSize.x:
+#			get_node("game").set_scale(Vector2(6 / (gameSize.y), 6 / (gameSize.y)))
+#		else:
+
+# Встановлення маштабу ігрового поля, для кращого відображення елементів гри
+		get_node("game").set_scale(Vector2(8 / (gameSize.x + 2), 8 / (gameSize.x + 2))) 
+
+
+# Генерація основного масиву
+func generateMainArray():
+	mainArray = []
+	print(gameSize)
+	for i in range(gameSize.x):
+		for j in range(gameSize.y):
+			mainArray.append(str(COLORS_NAMES[i] + str(j)))
+	mainArray[mainArray.size() - 1] = ''
+
 	
-func _ready():
-	randomize()
-	set_process_input(true)
-	set_fixed_process(true)
-	
-	setGameSize(get_node("/root/global").gameSize)
-#	generateMainArray()
-	shuffleBalls()
-	updateBalls()
-	
+
 #Обробка подій (натискання клавіш)
 func _input(event):
 	if event.is_action_released("space"): 
@@ -187,6 +231,7 @@ func shiftRow(row, dir):
 	for i in range(gameSize.x):
 		mainArray[i * gameSize.y + row] = tempRow[i]
 		
+# Пошук позиції кульки за її ім'ям
 func findBallByName(name):
 	var index = 0
 	for b in mainArray:
