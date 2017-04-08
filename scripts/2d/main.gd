@@ -9,7 +9,8 @@ var shiftPressed = Vector2(0,0) #Вектор, що зберігає колон�
 var gameSize = Vector2(2,2) #Розмір ігрового поля (кількість кульок по горизонталі і вертикалі
 var arrowDir = 0
 var lastDirection = 0
-
+var hShift = false
+var vShift = false
 const BALL_SIZE = 64	#Величина, на яку потрібно зав'язати розмірність елементів гри
 const MAX_SIZE = Vector2(6,9) #Максимальний розмір ігрового поля
 
@@ -17,7 +18,7 @@ const MAX_SIZE = Vector2(6,9) #Максимальний розмір ігров�
 const COLORS_NAMES = ['r', 'g', 'b', 'o', 'y', 'p']
 #Таблиця кольорів. В ній немає особливої необхідності, але мені видався такий варінат простішим, для осмислення
 const COLORS = {
-'black' : Color(1,1,1,1),						#Чорний					0
+'white' : Color(1,1,1,1),						#Білий					0
 'empty' : Color(0,0,0,0),						#Порожня комірка		1
 "red" : Color(1,0,0,1),							#Червоний				2
 "green" : Color(0,0.6,0,1),						#Зелені					3
@@ -25,6 +26,8 @@ const COLORS = {
 "orange" : Color(1.0, 0.5, 0.0, 1.0),			#Помаранчеві			5
 "yellow" : Color(0.65, 0.65, 0.0, 1.0),			#Жовті					6
 "purple" : Color(0.65, 0.0, 0.65, 1.0),			#Фіолетові				7
+"darkBlue" : Color(0.2, 0.2, 0.9, 0.4),			#Темно синій			8
+"black" : Color(0, 0, 0, 1),					#Білий					9
 }
 
 
@@ -52,12 +55,13 @@ func _fixed_process(delta):
 		var onGrid = Vector2(0,0)
 		
 		mouseOnGrid.x = int((mouse.x/scale - ballPressedPos.x) / BALL_SIZE) - 1 
-		mouseOnGrid.y = int((mouse.y/scale - 32 - ballPressedPos.y) / BALL_SIZE)
+		mouseOnGrid.y = int((mouse.y/scale - BALL_SIZE/2 - ballPressedPos.y) / BALL_SIZE)
 		ss += " **" + str(mouseOnGrid)
 		onGrid.x = (int((mouse.x/scale - ballPressedPos.x) / BALL_SIZE) - 1) - ballPressedPos.x
-		onGrid.y = int((mouse.y/scale - 32 - ballPressedPos.y) / BALL_SIZE) - ballPressedPos.y
+		onGrid.y = int((mouse.y/scale - BALL_SIZE/2 - ballPressedPos.y) / BALL_SIZE) - ballPressedPos.y
 		ss += " " + str(onGrid)
-		if onGrid.x != 0:
+		if (onGrid.x != 0 or hShift) and !vShift:
+			hShift = true
 			var rowToShift = []
 			var colToCut = []
 			
@@ -99,7 +103,18 @@ func _fixed_process(delta):
 				get_node("game/arrows/right/R" + str(ballPressedPos.y)).set_texture(0)
 				get_node("game/arrows/left/L" + str(ballPressedPos.y)).set_texture(1)
 			lastDirection = onGrid.x
-			
+		if (onGrid.y != 0 or vShift)  and !hShift:
+			vShift = true
+			if mouseOnGrid.x == findBallByName('').x:
+				get_node("game/vSelector").set_pos(Vector2((findBallByName('').x + 2) * BALL_SIZE,0))
+				get_node("game/vSelector").show()
+
+				if findBallByName('').y != mouseOnGrid.y:
+					#var sCol = mouseOnGrid.x
+					cutCol(mouseOnGrid)
+					updateBalls()
+		else:
+			get_node("game/vSelector").hide()
 #===================================================================
 #===================================================================
 
@@ -132,7 +147,7 @@ func setGameSize(size):
 			rButton.set_pos(Vector2(0,i * BALL_SIZE))
 			lButton.set_name(str('L' + str(i)))
 			rButton.set_name(str('R' + str(i)))
-			print(str(lButton.get_name() + " " + rButton.get_name()))
+
 			rButton.flip(true)
 
 		var rbPos = rightButtons.get_pos()
@@ -150,7 +165,6 @@ func setGameSize(size):
 # Генерація основного масиву
 func generateMainArray():
 	mainArray = []
-	print(gameSize)
 	for i in range(gameSize.x):
 		for j in range(gameSize.y):
 			mainArray.append(str(COLORS_NAMES[i] + str(j)))
@@ -179,15 +193,18 @@ func _input(event):
 	if event.is_action_released("LMB"):
 		if shiftPressed.y != 0:
 			shiftRow(shiftPressed.x, shiftPressed.y)
-			get_node("game/hSelector").hide()
-			var ballPressedPos = findBallByName(ballPressedName)
-			get_node("game/arrows/right/R" + str(ballPressedPos.y)).set_texture(0)
-			get_node("game/arrows/left/L" + str(ballPressedPos.y)).set_texture(0)
-		else:
+		elif !hShift and !vShift:
 			if findBallByName('').x == findBallByName(ballPressedName).x and ballPressed:
 				var sCol = findBallByName(ballPressedName).x
 				cutCol(findBallByName(ballPressedName))
 				updateBalls()
+		var ballPressedPos = findBallByName(ballPressedName)
+		get_node("game/arrows/right/R" + str(ballPressedPos.y)).set_texture(0)
+		get_node("game/arrows/left/L" + str(ballPressedPos.y)).set_texture(0)
+		get_node("game/hSelector").hide()
+		get_node("game/vSelector").hide()
+		hShift = false
+		vShift = false
 		ballPressed = false
 		updateBalls()
 		shiftPressed = Vector2(0,0)
@@ -198,9 +215,10 @@ func createBall(name):
 	var ball = ballObj.instance()
 	ball.set_name(name)
 	balls.add_child(ball)
-	var color = Color(0,0,0,1)
+	var color = Color(0,0,0,0)
 	if name != 'b':
 		color = toColor(name[1])
+
 	ball.setColor(color)
 	
 #Перефарбування кульок у відповідність до зазначених в ключовому масиві кольорів
@@ -283,25 +301,26 @@ func _signal_arrow(rowDir):
 	updateBalls()
 
 func cutCol(ball):
-	var column = []
-	var i
-	for b in range(gameSize.y):
-		i = b + (ball.x * gameSize.y)
-		column.append(mainArray[i])
-	var empty = findBallByName('')
-
-	var dir = 1
-	if empty.y > ball.y:
-		dir = -1
-	i = empty.y
-	while(i != ball.y):
-		column[i] = column[i + dir]
-		
-		i += dir
-	column[ball.y] = ''
-	for b in range(gameSize.y):
-		i = b + (ball.x * gameSize.y)
-		mainArray[i] = column[b]
+	if ball.x < gameSize.x and ball.y < gameSize.y:
+		var column = []
+		var i
+		for b in range(gameSize.y):
+			i = b + (ball.x * gameSize.y)
+			column.append(mainArray[i])
+		var empty = findBallByName('')
+	
+		var dir = 1
+		if empty.y > ball.y:
+			dir = -1
+		i = empty.y
+		while(i != ball.y):
+			column[i] = column[i + dir]
+			
+			i += dir
+		column[ball.y] = ''
+		for b in range(gameSize.y):
+			i = b + (ball.x * gameSize.y)
+			mainArray[i] = column[b]
 
 func _signal_ballClicked(name):
 	if name != 'b':
