@@ -13,4 +13,12 @@ row_dir = 0
 transform/scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 2 )
 
+[node name="Area2D" type="Area2D" parent="."]
+
+input/pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
 

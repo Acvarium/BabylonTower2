@@ -7,6 +7,8 @@ var ballPressed = false #Булева змінна, в якій визначає
 var ballPressedName = '' #Ім'я натиснутої кульки
 var shiftPressed = Vector2(0,0) #Вектор, що зберігає колонку, напрямок і величину зміщення кульок
 var gameSize = Vector2(2,2) #Розмір ігрового поля (кількість кульок по горизонталі і вертикалі
+var arrowDir = 0
+var lastDirection = 0
 
 const BALL_SIZE = 64	#Величина, на яку потрібно зав'язати розмірність елементів гри
 const MAX_SIZE = Vector2(6,9) #Максимальний розмір ігрового поля
@@ -26,7 +28,7 @@ const COLORS = {
 }
 
 
-#-------------------------------------------------------------
+#-------------------------------------------------------------------
 func _ready():
 	randomize()
 	set_process_input(true)
@@ -35,8 +37,7 @@ func _ready():
 #	generateMainArray()
 	shuffleBalls()
 	updateBalls()
-#-------------------------------------------------------------
-
+#-------------------------------------------------------------------
 
 #===================================================================
 #===================================================================
@@ -66,7 +67,7 @@ func _fixed_process(delta):
 			selector.set_pos(selectorPos)
 			selector.show()
 			
-			
+
 			for i in range(gameSize.x):
 				var b = get_node("game/balls/b" + mainArray[i * gameSize.y + ballPressedPos.y])
 				rowToShift.append(b)
@@ -91,6 +92,15 @@ func _fixed_process(delta):
 				elif (ballPressedPos.y < empty.y and onGrid.y > 0):
 					ss += (' Cut Up')
 			get_node("txt").set_text(ss)
+			
+			if onGrid.x > lastDirection:
+				get_node("game/arrows/right/R" + str(ballPressedPos.y)).set_texture(1)
+				get_node("game/arrows/left/L" + str(ballPressedPos.y)).set_texture(0)
+			elif onGrid.x < lastDirection:
+				get_node("game/arrows/right/R" + str(ballPressedPos.y)).set_texture(0)
+				get_node("game/arrows/left/L" + str(ballPressedPos.y)).set_texture(1)
+			lastDirection = onGrid.x
+			
 #===================================================================
 #===================================================================
 
@@ -123,12 +133,13 @@ func setGameSize(size):
 			rButton.set_pos(Vector2(0,i * BALL_SIZE))
 			lButton.set_name(str('L' + str(i)))
 			rButton.set_name(str('R' + str(i)))
+			print(str(lButton.get_name() + " " + rButton.get_name()))
 			rButton.flip(true)
-			
+
 		var rbPos = rightButtons.get_pos()
 		rbPos.x = (gameSize.x + 2)* BALL_SIZE - BALL_SIZE / 2
 		rightButtons.set_pos(rbPos)
-
+		
 #		if gameSize.y > gameSize.x:
 #			get_node("game").set_scale(Vector2(6 / (gameSize.y), 6 / (gameSize.y)))
 #		else:
@@ -170,7 +181,9 @@ func _input(event):
 		if shiftPressed.y != 0:
 			shiftRow(shiftPressed.x, shiftPressed.y)
 			get_node("game/hSelector").hide()
-			
+			var ballPressedPos = findBallByName(ballPressedName)
+			get_node("game/arrows/right/R" + str(ballPressedPos.y)).set_texture(0)
+			get_node("game/arrows/left/L" + str(ballPressedPos.y)).set_texture(0)
 		else:
 			if findBallByName('').x == findBallByName(ballPressedName).x and ballPressed:
 				var sCol = findBallByName(ballPressedName).x
