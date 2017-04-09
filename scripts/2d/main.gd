@@ -2,20 +2,25 @@ extends Node2D
 var mainArray = []  #Основний одновимірний масив, в котрому зберігається розташування всіх кульок
 var ballObj = load("res://objects/ball.tscn") #Інстанцінг об'єкту кульки
 var arrowObj = load("res://objects/arrow.tscn") #Інстанцінг об'єкту кульки
+var flagObj = load("res://objects/flag.tscn") #Інстанцінг об'єкту кульки
+
 
 var ballPressed = false #Булева змінна, в якій визначається, чи було натиснуто на яку небудь кульку
 var ballPressedName = '' #Ім'я натиснутої кульки
 var shiftPressed = Vector2(0,0) #Вектор, що зберігає колонку, напрямок і величину зміщення кульок
 var gameSize = Vector2(2,2) #Розмір ігрового поля (кількість кульок по горизонталі і вертикалі
-var arrowDir = 0
 var lastDirection = 0
 var hShift = false
 var vShift = false
 const BALL_SIZE = 64	#Величина, на яку потрібно зав'язати розмірність елементів гри
 const MAX_SIZE = Vector2(6,9) #Максимальний розмір ігрового поля
+var game_mode = 1
+
+
 
 #Масив кодових символів для кольорів кульок
 const COLORS_NAMES = ['r', 'g', 'b', 'o', 'y', 'p']
+
 #Таблиця кольорів. В ній немає особливої необхідності, але мені видався такий варінат простішим, для осмислення
 const COLORS = {
 'white' : Color(1,1,1,1),						#Білий					0
@@ -34,6 +39,7 @@ const COLORS = {
 #-------------------------------------------------------------------
 func _ready():
 	randomize()
+	game_mode = (get_node("/root/global").game_mode)
 	set_process_input(true)
 	set_fixed_process(true)
 	setGameSize(get_node("/root/global").gameSize)
@@ -45,7 +51,7 @@ func _ready():
 #===================================================================
 #===================================================================
 func _fixed_process(delta):
-	var mouse = get_local_mouse_pos() #get_viewport().get_mouse_pos()
+	var mouse = get_local_mouse_pos() 
 	var ballPressedPos = findBallByName(ballPressedName)
 	var ss = str(mouse)
 	var scale = get_node("game").get_scale().x
@@ -119,6 +125,22 @@ func _fixed_process(delta):
 #===================================================================
 
 
+func update_flags():
+# Видалення всіх прапорців
+
+	for flag in get_node("game/flags").get_children():
+		flag.free()
+		
+# Створення кольорових прапорців-підказок, зо зазначають як саме мать бути розташовані колонки кольорів
+	if game_mode > 0:
+		for i in range(gameSize.x):
+			var flag = flagObj.instance()
+			get_node("game/flags").add_child(flag)
+			flag.set_name("f" + str(i))
+			flag.set_pos(Vector2(BALL_SIZE * i + BALL_SIZE * 1.5,BALL_SIZE/2))
+			flag.get_node("flag").set_modulate(toColor(COLORS_NAMES[i]))
+	
+
 #Встановлення розміру ігрового поля та маштабування ігрових елементів, для коректного заповнення
 func setGameSize(size):
 	if size.x <= MAX_SIZE.x and size.y <= MAX_SIZE.y and size.x > 1 and size.y > 1:
@@ -147,9 +169,11 @@ func setGameSize(size):
 			rButton.set_pos(Vector2(0,i * BALL_SIZE))
 			lButton.set_name(str('L' + str(i)))
 			rButton.set_name(str('R' + str(i)))
-
 			rButton.flip(true)
-
+		update_flags()
+	
+			
+			
 		var rbPos = rightButtons.get_pos()
 		rbPos.x = (gameSize.x + 2)* BALL_SIZE - BALL_SIZE / 2
 		rightButtons.set_pos(rbPos)
@@ -208,6 +232,32 @@ func _input(event):
 		ballPressed = false
 		updateBalls()
 		shiftPressed = Vector2(0,0)
+		check_victory()
+
+# Перевірка, чи гру виграно
+func check_victory():
+	if game_mode > 0:
+		var game_complited = true
+		for i in range(gameSize.x):
+			var column = []
+			var col_complited = 0
+			var ballCount = gameSize.y
+			if i == gameSize.x - 1:
+				ballCount = gameSize.y - 1
+			for b in range(gameSize.y):
+				column.append(mainArray[b + i * gameSize.y])
+				if mainArray[b + i * gameSize.y]:
+					if (mainArray[b + i * gameSize.y][0] == COLORS_NAMES[i]):
+						col_complited += 1
+			print(column)
+			if col_complited == ballCount:
+				get_node("game/flags/f" + str(i)).get_node("highlite").show() 
+			else:
+				get_node("game/flags/f" + str(i)).get_node("highlite").hide() 
+			
+		if game_complited:
+			print("Winner!")
+
 
 #Створення однієї кульки за заданими параметрами
 func createBall(name):

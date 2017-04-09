@@ -1,6 +1,7 @@
 extends Node
 
 var gameSize = Vector2(3,4)
+var game_mode = 0
 
 func getGameSize():
 	return gameSize
@@ -20,3 +21,4 @@ func _deferred_goto_scene(path):
 	current_scene = s.instance()
 	get_tree().get_root().add_child(current_scene)
 	get_tree().set_current_scene( current_scene )
+	print(str("Game_mode = ", str(game_mode)))
