@@ -3,7 +3,7 @@ var mainArray = []  #Основний одновимірний масив, в к
 var ballObj = load("res://objects/ball.tscn") #Інстанцінг об'єкту кульки
 var arrowObj = load("res://objects/arrow.tscn") #Інстанцінг об'єкту кульки
 var flagObj = load("res://objects/flag.tscn") #Інстанцінг об'єкту кульки
-
+var steps = 0
 
 var ballPressed = false #Булева змінна, в якій визначається, чи було натиснуто на яку небудь кульку
 var ballPressedName = '' #Ім'я натиснутої кульки
@@ -16,7 +16,7 @@ const BALL_SIZE = 64	#Величина, на яку потрібно зав'яз
 const MAX_SIZE = Vector2(6,9) #Максимальний розмір ігрового поля
 var game_mode = 1
 
-
+var v_empty_pos = 0
 
 #Масив кодових символів для кольорів кульок
 const COLORS_NAMES = ['r', 'g', 'b', 'o', 'y', 'p']
@@ -84,9 +84,7 @@ func _fixed_process(delta):
 				var b = get_node("game/balls/b" + mainArray[mainArray.size() - 1])
 				if ballPressedPos.y < gameSize.y:
 					b = get_node("game/balls/b" + mainArray[i * gameSize.y + ballPressedPos.y])
-	
 				var pos = b.get_pos()
-
 				pos.x = ((int(i + mouseOnGrid.x - ballPressedPos.x) % int(gameSize.x)))
 				if pos.x < 0:
 					pos.x = int(pos.x + gameSize.x) % int(gameSize.x)
@@ -110,6 +108,8 @@ func _fixed_process(delta):
 				get_node("game/arrows/left/L" + str(ballPressedPos.y)).set_texture(1)
 			lastDirection = onGrid.x
 		if (onGrid.y != 0 or vShift)  and !hShift:
+			if !vShift:
+				v_empty_pos = findBallByName('').y
 			vShift = true
 			if mouseOnGrid.x == findBallByName('').x:
 				get_node("game/vSelector").set_pos(Vector2((findBallByName('').x + 2) * BALL_SIZE,0))
@@ -217,11 +217,15 @@ func _input(event):
 	if event.is_action_released("LMB"):
 		if shiftPressed.y != 0:
 			shiftRow(shiftPressed.x, shiftPressed.y)
-		elif !hShift and !vShift:
+			steps += 1
+		elif !hShift and !vShift and ballPressedName != '':
 			if findBallByName('').x == findBallByName(ballPressedName).x and ballPressed:
 				var sCol = findBallByName(ballPressedName).x
 				cutCol(findBallByName(ballPressedName))
 				updateBalls()
+				steps += 1
+		if vShift and v_empty_pos != findBallByName('').y:
+			steps += 1
 		var ballPressedPos = findBallByName(ballPressedName)
 		get_node("game/arrows/right/R" + str(ballPressedPos.y)).set_texture(0)
 		get_node("game/arrows/left/L" + str(ballPressedPos.y)).set_texture(0)
@@ -255,8 +259,8 @@ func check_victory():
 			else:
 				get_node("game/flags/f" + str(i)).get_node("highlite").hide() 
 			
-		if game_complited:
-			print("Winner!")
+#		if game_complited:
+#			print("Winner!")
 
 
 #Створення однієї кульки за заданими параметрами
@@ -323,6 +327,7 @@ func findBallByName(name):
 
 #Перемішати кульки
 func shuffleBalls():
+	steps = 0
 	var shuffledList = [] 
 	var indexList = range(mainArray.size())
 	for i in range(mainArray.size()):
@@ -344,6 +349,7 @@ func updateBalls():
 			createBall(name)
 		get_node("game/balls/b" + mainArray[index]).set_pos(Vector2(col * (BALL_SIZE), row * (BALL_SIZE)))
 		index += 1
+		get_node("steps").set_text(str(steps))
 
 #Обробка сигналів кнопок
 func _signal_arrow(rowDir):
@@ -371,6 +377,7 @@ func cutCol(ball):
 		for b in range(gameSize.y):
 			i = b + (ball.x * gameSize.y)
 			mainArray[i] = column[b]
+
 
 func _signal_ballClicked(name):
 	if name != 'b':

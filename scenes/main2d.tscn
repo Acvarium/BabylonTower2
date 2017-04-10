@@ -5,7 +5,7 @@
 [ext_resource path="res://textures/2d/arrow_020.png" type="Texture" id=3]
 [ext_resource path="res://textures/2d/arrow_021.png" type="Texture" id=4]
 [ext_resource path="res://textures/2d/hSelector.png" type="Texture" id=5]
-[ext_resource path="res://objects/flag.tscn" type="PackedScene" id=6]
+[ext_resource path="res://fonts/pix16.fnt" type="BitmapFont" id=6]
 
 [node name="main" type="Node2D"]
 
@@ -94,7 +94,7 @@ transform/pos = Vector2( 32, 64 )
 
 transform/pos = Vector2( 480, 64 )
 
-[node name="flags" parent="game" instance=ExtResource( 6 )]
+[node name="flags" type="Node2D" parent="game"]
 
 [node name="txt" type="Label" parent="."]
 
@@ -108,6 +108,23 @@ margin/top = 0.0
 margin/right = 56.0
 margin/bottom = 14.0
 text = "123, 321"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="steps" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 64.0
+margin/top = 640.0
+margin/right = 104.0
+margin/bottom = 671.0
+custom_fonts/font = ExtResource( 6 )
+text = "100"
+align = 2
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1

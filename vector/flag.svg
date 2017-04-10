@@ -82,19 +82,6 @@
     <filter
        inkscape:collect="always"
        style="color-interpolation-filters:sRGB"
-       id="filter4669"
-       x="-0.075367348"
-       width="1.1507347"
-       y="-0.075834093"
-       height="1.1516682">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.27461757"
-         id="feGaussianBlur4671" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       style="color-interpolation-filters:sRGB"
        id="filter4669-3"
        x="-0.075367346"
        width="1.1507347"
@@ -154,14 +141,18 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     style="display:inline">
     <rect
        style="opacity:0;fill:#008000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2.06691027;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4639"
        width="67.73333"
        height="67.73333"
        x="-116.15821"
-       y="-141.01512" />
+       y="-141.01512"
+       inkscape:export-filename="/home/vit/ProjectG70/godot/BabylonTower2/textures/2d/flag.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
     <image
        y="-251.44345"
        x="-958.47717"
@@ -179,12 +170,13 @@
        inkscape:export-xdpi="397.18604"
        inkscape:export-ydpi="397.18604" />
     <path
-       inkscape:export-ydpi="397.18604"
-       inkscape:export-xdpi="397.18604"
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
        style="opacity:1;fill:url(#linearGradient4637);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.34777701;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m -98.733966,-141.01512 v 27.88223 l 16.44196,-6.61458 16.44288,6.61458 v -27.88223 z"
        id="path4635"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccc" />
+       sodipodi:nodetypes="cccccc"
+       inkscape:export-filename="/home/vit/ProjectG70/godot/BabylonTower2/textures/2d/flag.png" />
   </g>
 </svg>
