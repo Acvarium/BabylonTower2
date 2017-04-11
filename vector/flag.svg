@@ -228,6 +228,19 @@
        y1="1340.0193"
        x2="-215.15196"
        y2="1224.2582" />
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter4960"
+       x="-0.17650802"
+       width="1.353016"
+       y="-0.23829563"
+       height="1.4765913">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="8.5264361"
+         id="feGaussianBlur4962" />
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -236,11 +249,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.22627417"
-     inkscape:cx="-1411.6357"
-     inkscape:cy="-2614.842"
+     inkscape:zoom="0.64"
+     inkscape:cx="-2046.8486"
+     inkscape:cy="-3211.6496"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g4969"
      showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1055"
@@ -6424,12 +6437,6 @@ NZV0oiZ/uliPuA385lf//Sb/q+CvGfhrBv6agb9m4P+LDPxf63cAie230gsAAAAASUVORK5CYII=
        d="m -130.47707,1261.1907 c -10.99545,0 -17.94026,11.1662 -19.84605,24.7298 l -5.78776,41.1918 c -1.65134,11.7527 9.55426,21.4229 21.42246,21.4229 h 114.457619 c 11.8681998,0 23.0743298,-9.6702 21.4229798,-21.4229 l -5.78776,-41.1918 c -1.90578,-13.5636 -8.8516698,-24.7298 -19.8465198,-24.7298 z"
        style="opacity:0.47400004;fill:url(#linearGradient4674);fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:5.05245686;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <path
-       style="opacity:0.47400004;fill:url(#linearGradient4669);fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:4.57417011;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m -691.58849,1174.328 c -8.60992,0 -14.04802,11.6879 -15.54034,25.8854 l -4.53208,43.1165 c -1.29306,12.3017 7.48142,22.4239 16.77474,22.4239 h 89.62542 c 9.29333,0 18.06822,-10.1222 16.77515,-22.4239 l -4.53208,-43.1165 c -1.4923,-14.1975 -6.93125,-25.8854 -15.5407,-25.8854 z"
-       id="rect4521"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="sssssssss" />
-    <path
        style="display:inline;opacity:0.28000004;fill:url(#linearGradient4622);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.92885709;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m -493.74683,1425.6687 -13.16223,57.0256 192.61667,5.1308 -16.79389,-67.7333 z"
        id="rect4540-7"
@@ -6528,5 +6535,36 @@ NZV0oiZ/uliPuA385lf//Sb/q+CvGfhrBv6agb9m4P+LDPxf63cAie230gsAAAAASUVORK5CYII=
        id="path4659"
        d="m -202.70516,1438.8978 -13.16223,57.0256 192.616667,5.1308 -16.79389,-67.7333 z"
        style="display:inline;opacity:0.28000004;fill:url(#linearGradient4661);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.92885709;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <g
+       id="g4969"
+       style="opacity:0.766">
+      <path
+         inkscape:export-ydpi="96"
+         inkscape:export-xdpi="96"
+         inkscape:export-filename="/home/vit/ProjectG70/godot/BabylonTower2/textures/2d/sq001.png"
+         sodipodi:nodetypes="sssssssss"
+         inkscape:connector-curvature="0"
+         id="rect4521"
+         d="m -691.58849,1174.328 c -8.60992,0 -14.04802,11.6879 -15.54034,25.8854 l -4.53208,43.1165 c -1.29306,12.3017 7.48142,22.4239 16.77474,22.4239 h 89.62542 c 9.29333,0 18.06822,-10.1222 16.77515,-22.4239 l -4.53208,-43.1165 c -1.4923,-14.1975 -6.93125,-25.8854 -15.5407,-25.8854 z"
+         style="opacity:0.47400004;fill:url(#linearGradient4669);fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:4.57417011;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         style="opacity:0.47400004;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000090;stroke-width:4.296;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter4960)"
+         d="m -689.06763,1177.1038 c -8.08712,0 -13.19501,10.9782 -14.59672,24.3136 l -4.25689,40.4984 c -1.21454,11.5547 7.02715,21.0622 15.75616,21.0622 h 84.18327 c 8.72902,0 16.97109,-9.5075 15.75654,-21.0622 l -4.25689,-40.4984 c -1.40169,-13.3354 -6.51038,-24.3136 -14.59705,-24.3136 z"
+         id="path4676"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="sssssssss"
+         inkscape:export-filename="/home/vit/ProjectG70/godot/BabylonTower2/textures/2d/sq001.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
+      <path
+         style="opacity:0.426;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:4.57417011;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m -691.58849,1174.328 c -8.60992,0 -14.04802,11.6879 -15.54034,25.8854 l -4.53208,43.1165 c -1.29306,12.3017 7.48142,22.4239 16.77474,22.4239 h 89.62542 c 9.29333,0 18.06822,-10.1222 16.77515,-22.4239 l -4.53208,-43.1165 c -1.4923,-14.1975 -6.93125,-25.8854 -15.5407,-25.8854 z"
+         id="path4964"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="sssssssss"
+         inkscape:export-filename="/home/vit/ProjectG70/godot/BabylonTower2/textures/2d/sq001.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
+    </g>
   </g>
 </svg>

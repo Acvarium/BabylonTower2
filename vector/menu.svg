@@ -26,11 +26,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="250.55948"
-     inkscape:cy="311.71415"
+     inkscape:zoom="1.979899"
+     inkscape:cx="227.52319"
+     inkscape:cy="76.115973"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer4"
+     inkscape:current-layer="layer2"
      showgrid="false"
      units="px"
      inkscape:window-width="1920"
@@ -73,7 +73,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="buttons"
-     style="display:none">
+     style="display:inline">
     <circle
        style="display:inline;opacity:0.50199998;fill:#000000;fill-opacity:0.51764706;fill-rule:nonzero;stroke:none;stroke-width:0.19918694;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4847"
@@ -200,12 +200,54 @@
          x="72.468628"
          y="119.32836"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:10.06000042px;font-family:'Impact LT Std';-inkscape-font-specification:'Impact LT Std';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:0.40224102px">HARD</tspan></text>
+    <circle
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       inkscape:export-filename="/home/vit/ProjectG70/godot/BabylonTower2/textures/2d/menuButton040.png"
+       r="2.7897418"
+       cy="163.78169"
+       cx="40.674488"
+       id="circle4699-3"
+       style="display:inline;opacity:0.50199998;fill:#000000;fill-opacity:0.51764706;fill-rule:nonzero;stroke:none;stroke-width:0.13563859;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       inkscape:export-filename="/home/vit/ProjectG70/godot/BabylonTower2/textures/2d/menuButton040.png"
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="path4701-6"
+       d="m 45.393673,155.1759 0.37304,14.31285 45.447147,0.6656 0.272321,-15.05144 z"
+       style="display:inline;opacity:0.50199998;fill:#000000;fill-opacity:0.51764706;fill-rule:nonzero;stroke:none;stroke-width:0.23703903;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <circle
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       inkscape:export-filename="/home/vit/ProjectG70/godot/BabylonTower2/textures/2d/menuButton040.png"
+       style="display:inline;opacity:0.50199998;fill:#000000;fill-opacity:0.51764706;fill-rule:nonzero;stroke:none;stroke-width:0.13563859;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="circle4703-7"
+       cx="97.293182"
+       cy="162.85423"
+       r="2.7897418" />
+    <text
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       inkscape:export-filename="/home/vit/ProjectG70/godot/BabylonTower2/textures/2d/menuButton040.png"
+       transform="matrix(1.038863,-0.00974018,0.01051303,0.96249227,0,0)"
+       id="text4707-5"
+       y="173.00726"
+       x="64.178955"
+       style="font-style:normal;font-weight:normal;font-size:9.7250309px;line-height:6.07814503px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.24312578px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:6.08054733px;font-family:'Impact LT Std';-inkscape-font-specification:'Impact LT Std';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:0.24312578px;"
+         y="173.00726"
+         x="64.178955"
+         id="tspan4705-3"
+         sodipodi:role="line">TUTORIAL</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="buttons 1"
-     style="display:inline">
+     style="display:none">
     <circle
        style="display:inline;opacity:0.50199998;fill:#312b5c;fill-opacity:0.90941389;fill-rule:nonzero;stroke:none;stroke-width:0.19918694;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4847-6"
@@ -332,6 +374,48 @@
          x="63.276318"
          y="124.69422"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:10.06000042px;font-family:'Impact LT Std';-inkscape-font-specification:'Impact LT Std';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#c17279;fill-opacity:0.9835466;stroke-width:0.40224102px">HARD</tspan></text>
+    <circle
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       inkscape:export-filename="/home/vit/ProjectG70/godot/BabylonTower2/textures/2d/menuButton041.png"
+       r="2.7897418"
+       cy="162.04443"
+       cx="40.273582"
+       id="circle4699"
+       style="display:inline;opacity:0.50199998;fill:#312b5c;fill-opacity:0.90941389;fill-rule:nonzero;stroke:none;stroke-width:0.13563859;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       inkscape:export-filename="/home/vit/ProjectG70/godot/BabylonTower2/textures/2d/menuButton041.png"
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="path4701"
+       d="m 45.660943,154.775 -0.963308,14.58012 48.253475,1.33377 -1.331296,-15.71961 z"
+       style="opacity:0.50199998;fill:#312b5c;fill-opacity:0.90941389;fill-rule:nonzero;stroke:none;stroke-width:0.23703903;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <circle
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       inkscape:export-filename="/home/vit/ProjectG70/godot/BabylonTower2/textures/2d/menuButton041.png"
+       style="display:inline;opacity:0.50199998;fill:#312b5c;fill-opacity:0.90941389;fill-rule:nonzero;stroke:none;stroke-width:0.13563859;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="circle4703"
+       cx="97.293182"
+       cy="165.66057"
+       r="2.7897418" />
+    <text
+       inkscape:export-ydpi="96"
+       inkscape:export-xdpi="96"
+       inkscape:export-filename="/home/vit/ProjectG70/godot/BabylonTower2/textures/2d/menuButton041.png"
+       transform="matrix(1.038863,-0.00974018,0.01051303,0.96249227,0,0)"
+       id="text4707"
+       y="173.00726"
+       x="64.178955"
+       style="font-style:normal;font-weight:normal;font-size:9.7250309px;line-height:6.07814503px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#209039;fill-opacity:1;stroke:none;stroke-width:0.24312578px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:6.08054733px;font-family:'Impact LT Std';-inkscape-font-specification:'Impact LT Std';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#209039;fill-opacity:1;stroke-width:0.24312578px"
+         y="173.00726"
+         x="64.178955"
+         id="tspan4705"
+         sodipodi:role="line">TUTORIAL</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"

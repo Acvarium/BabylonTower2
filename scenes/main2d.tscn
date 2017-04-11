@@ -46,8 +46,6 @@ textures/hover = ExtResource( 4 )
 
 [node name="game" type="Node2D" parent="."]
 
-editor/display_folded = true
-
 [node name="hSelector" type="TextureFrame" parent="game"]
 
 visibility/visible = false
