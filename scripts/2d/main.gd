@@ -109,21 +109,15 @@ func _fixed_process(delta):
 			lastDirection = onGrid.x
 
 		if (onGrid.y != 0 or vShift)  and !hShift:
-#			if !vShift:
-#				v_empty_pos = findBallByName('').y
-#			
+
 			if mouseOnGrid.x == findBallByName('').x:
 
 				if sign(int(onGrid.y)) == sign(int(findBallByName('').y - ballPressedPos.y )) and !vShift:
-#					get_node("game/vSelector").set_pos(Vector2((findBallByName('').x + 2) * BALL_SIZE,0))
-#					get_node("game/vSelector").show()
+
 					cutCol(ballPressedPos)
 					updateBalls()
 					vShift = true
-				else:
-					get_node("game/vSelector").hide()
-			else:
-				get_node("game/vSelector").hide()
+
 #===================================================================
 #===================================================================
 
@@ -233,7 +227,6 @@ func _input(event):
 		get_node("game/arrows/right/R" + str(ballPressedPos.y)).set_texture(0)
 		get_node("game/arrows/left/L" + str(ballPressedPos.y)).set_texture(0)
 		get_node("game/hSelector").hide()
-		get_node("game/vSelector").hide()
 		hShift = false
 		vShift = false
 		ballPressed = false

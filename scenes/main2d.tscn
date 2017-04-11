@@ -45,6 +45,8 @@ textures/hover = ExtResource( 4 )
 
 [node name="game" type="Node2D" parent="."]
 
+editor/display_folded = true
+
 [node name="hSelector" type="TextureFrame" parent="game"]
 
 visibility/visible = false
@@ -62,29 +64,13 @@ modulate = Color( 1, 1, 1, 0.388 )
 expand = true
 stretch_mode = 0
 
-[node name="vSelector" type="TextureFrame" parent="game"]
-
-visibility/visible = false
-rect/rotation = -90.0
-rect/scale = Vector2( 0.5, 10 )
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 64.0
-margin/top = 0.0
-margin/right = 192.0
-margin/bottom = 128.0
-texture = ExtResource( 5 )
-modulate = Color( 0.2, 0.2, 0.9, 0.4 )
-expand = true
-stretch_mode = 0
-
 [node name="balls" type="Node2D" parent="game"]
 
 transform/pos = Vector2( 96, 64 )
 
 [node name="arrows" type="Node2D" parent="game"]
+
+editor/display_folded = true
 
 [node name="left" type="Node2D" parent="game/arrows"]
 
@@ -98,6 +84,7 @@ transform/pos = Vector2( 480, 64 )
 
 [node name="txt" type="Label" parent="."]
 
+visibility/visible = false
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -113,6 +100,7 @@ max_lines_visible = -1
 
 [node name="steps" type="Label" parent="."]
 
+visibility/visible = false
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
