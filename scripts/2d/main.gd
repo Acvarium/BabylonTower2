@@ -4,6 +4,7 @@ var ballObj = load("res://objects/ball.tscn") #Інстанцінг об'єкт�
 var arrowObj = load("res://objects/arrow.tscn") #Інстанцінг об'єкту кульки
 var flagObj = load("res://objects/flag.tscn") #Інстанцінг об'єкту кульки
 var steps = 0
+var time = 0
 
 var ballPressed = false #Булева змінна, в якій визначається, чи було натиснуто на яку небудь кульку
 var ballPressedName = '' #Ім'я натиснутої кульки
@@ -51,6 +52,10 @@ func _ready():
 #===================================================================
 #===================================================================
 func _fixed_process(delta):
+	time += delta
+	var minutes = int(time / 60)
+	var sec = int(time - (minutes * 60))
+	get_node("time").set_text(str("%02d" % minutes) + ":" + str("%02d" % sec))
 	var mouse = get_local_mouse_pos() 
 	var ballPressedPos = findBallByName(ballPressedName)
 	var ss = str(mouse)
@@ -254,9 +259,14 @@ func check_victory():
 				get_node("game/flags/f" + str(i)).get_node("highlite").show() 
 			else:
 				get_node("game/flags/f" + str(i)).get_node("highlite").hide() 
+				game_complited = false
+				
 			
-#		if game_complited:
-#			print("Winner!")
+		if game_complited:
+			print("Winner!")
+			get_node("/root/global").time = time
+			get_node("/root/global").steps = steps
+			get_node("/root/global").goto_scene("res://scenes/score.tscn")
 
 
 #Створення однієї кульки за заданими параметрами

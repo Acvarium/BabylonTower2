@@ -2,6 +2,8 @@ extends Node
 
 var gameSize = Vector2(3,4)
 var game_mode = 0
+var time = 0
+var steps = 0
 
 func getGameSize():
 	return gameSize

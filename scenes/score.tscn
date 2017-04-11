@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://scripts/2d/score.gd" type="Script" id=1]
 [ext_resource path="res://textures/2d/bg.jpg" type="Texture" id=2]
 [ext_resource path="res://fonts/pix64.fnt" type="BitmapFont" id=3]
+[ext_resource path="res://textures/2d/arrow_020.png" type="Texture" id=4]
+[ext_resource path="res://textures/2d/arrow_021.png" type="Texture" id=5]
 
 [node name="main" type="Node2D"]
 
@@ -95,5 +97,24 @@ align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+
+[node name="TextureButton" type="TextureButton" parent="."]
+
+rect/scale = Vector2( 0.25, 0.25 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 608.0
+margin/right = 256.0
+margin/bottom = 864.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 4 )
+textures/hover = ExtResource( 5 )
+
+[connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]
 
 
