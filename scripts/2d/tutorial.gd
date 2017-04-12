@@ -8,6 +8,7 @@ func _ready():
 	get_node("anim").play("a")
 	var game = get_node("main")
 	game.cControl = true
+	game.game_mode = 1
 	game.setGameSize(Vector2(3,4))
 	
 	set_fixed_process(true)

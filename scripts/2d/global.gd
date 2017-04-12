@@ -1,7 +1,7 @@
 extends Node
 
 var gameSize = Vector2(3,4)
-var game_mode = 0
+var game_mode = 1
 var time = 0
 var steps = 0
 
