@@ -49,9 +49,7 @@ func _ready():
 #	generateMainArray()
 	shuffleBalls()
 	updateBalls()
-#-------------------------------------------------------------------
 
-#===================================================================
 #===================================================================
 func _fixed_process(delta):
 	time += delta
@@ -67,7 +65,6 @@ func _fixed_process(delta):
 	ss += " __" + str(ballPressedPos)
 	if ballPressed:
 		cState = true
-		print(ballPressedName)
 		var mouseOnGrid = Vector2(0,0)
 		var onGrid = Vector2(0,0)
 		
@@ -133,7 +130,7 @@ func _fixed_process(delta):
 			shiftRow(shiftPressed.x, shiftPressed.y)
 			steps += 1
 		elif !hShift and !vShift and ballPressedName != '':
-			if findBallByName('').x == findBallByName(ballPressedName).x and ballPressed:
+			if findBallByName('').x == findBallByName(ballPressedName).x:
 				var sCol = findBallByName(ballPressedName).x
 				cutCol(findBallByName(ballPressedName))
 				updateBalls()
@@ -201,17 +198,11 @@ func setGameSize(size):
 			rButton.set_name(str('R' + str(i)))
 			rButton.flip(true)
 		update_flags()
-	
-			
-			
+
 		var rbPos = rightButtons.get_pos()
 		rbPos.x = (gameSize.x + 2)* BALL_SIZE - BALL_SIZE / 2
 		rightButtons.set_pos(rbPos)
 		
-#		if gameSize.y > gameSize.x:
-#			get_node("game").set_scale(Vector2(6 / (gameSize.y), 6 / (gameSize.y)))
-#		else:
-
 # Встановлення маштабу ігрового поля, для кращого відображення елементів гри
 		get_node("game").set_scale(Vector2(8 / (gameSize.x + 2), 8 / (gameSize.x + 2))) 
 
@@ -243,15 +234,14 @@ func _input(event):
 	if event.is_action_released("ui_up"): 
 		setGameSize(Vector2(gameSize.x, gameSize.y - 1))
 
-	
 	if event.is_action_pressed("LMB") and !cControl:
-		ballPressedName = get_ball_on_grid(get_ball_at_cursor(get_local_mouse_pos()))
-		ballPressed = true
+		var cursor_pos = get_ball_at_cursor(get_local_mouse_pos())
+		if cursor_pos.x < gameSize.x and cursor_pos.y < gameSize.y:
+			ballPressedName = get_ball_on_grid(cursor_pos)
+			ballPressed = true
 		
-	
 	if event.is_action_released("LMB") and !cControl:
 		ballPressed = false
-
 
 # Перевірка, чи гру виграно
 func check_victory():
@@ -268,7 +258,7 @@ func check_victory():
 				if mainArray[b + i * gameSize.y]:
 					if (mainArray[b + i * gameSize.y][0] == COLORS_NAMES[i]):
 						col_complited += 1
-			print(column)
+
 			if col_complited == ballCount:
 				get_node("game/flags/f" + str(i)).get_node("highlite").show() 
 			else:
@@ -277,7 +267,7 @@ func check_victory():
 				
 			
 		if game_complited:
-			print("Winner!")
+
 			get_node("/root/global").time = time
 			get_node("/root/global").steps = steps
 			get_node("/root/global").goto_scene("res://scenes/score.tscn")
