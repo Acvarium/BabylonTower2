@@ -16,8 +16,9 @@ var vShift = false
 const BALL_SIZE = 64	#Величина, на яку потрібно зав'язати розмірність елементів гри
 const MAX_SIZE = Vector2(6,9) #Максимальний розмір ігрового поля
 var game_mode = 1
-
 var v_empty_pos = 0
+var cControl = false
+var cursor_position = Vector2(0,0)
 
 #Масив кодових символів для кольорів кульок
 const COLORS_NAMES = ['r', 'g', 'b', 'o', 'y', 'p']
@@ -57,6 +58,8 @@ func _fixed_process(delta):
 	var sec = int(time - (minutes * 60))
 	get_node("time").set_text(str("%02d" % minutes) + ":" + str("%02d" % sec))
 	var mouse = get_local_mouse_pos() 
+	if cControl:
+		mouse = cursor_position
 	var ballPressedPos = findBallByName(ballPressedName)
 	var ss = str(mouse)
 	var scale = get_node("game").get_scale().x
@@ -384,7 +387,6 @@ func cutCol(ball):
 			i = b + (ball.x * gameSize.y)
 			mainArray[i] = column[b]
 
-
 func _signal_ballClicked(name):
 	if name != 'b':
 		name = name[1] + name[2]
@@ -392,6 +394,22 @@ func _signal_ballClicked(name):
 	else:
 		ballPressedName = ''
 	ballPressed = true
+
+func ball_clicked(cursor_position):
+	var cursorOnGrid = Vector2(0,0)
+	var ss = ''
+	var scale = get_node("game").get_scale().x
+	cursorOnGrid.x = int((cursor_position.x/scale) / BALL_SIZE) - 1 
+	cursorOnGrid.y = int((cursor_position.y/scale - BALL_SIZE/2) / BALL_SIZE)
+	var i = cursorOnGrid.y + (cursorOnGrid.x * gameSize.y)
+	if i < mainArray.size() - 1:
+		ballPressedName = mainArray[i]
+	ss += str(i) + ' ' + str(mainArray) + ' ' + str(ballPressedName)
+	ballPressed = true
+	get_node("txt").set_text(ss)
+	print(cursorOnGrid)
+	
+	
 
 
 func _on_back_pressed():
