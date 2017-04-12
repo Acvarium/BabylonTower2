@@ -1,9 +1,10 @@
 extends KinematicBody2D
 
-signal ballClicked(name)
+#signal ballClicked(name)
 
 func _ready():
-	self.connect("ballClicked",get_node("/root/main"),"_signal_ballClicked")
+	pass
+#	self.connect("ballClicked",get_node("/root/main"),"_signal_ballClicked")
 
 	
 func setColor(color):

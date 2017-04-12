@@ -6,7 +6,7 @@ var flagObj = load("res://objects/flag.tscn") #Інстанцінг об'єкт�
 var steps = 0
 var time = 0
 
-var ballPressed = false #Булева змінна, в якій визначається, чи було натиснуто на яку небудь кульку
+var ballPressed = false #Булева змінна, в якій визначається, чи було натиснуто на яку-небудь кульку
 var ballPressedName = '' #Ім'я натиснутої кульки
 var shiftPressed = Vector2(0,0) #Вектор, що зберігає колонку, напрямок і величину зміщення кульок
 var gameSize = Vector2(2,2) #Розмір ігрового поля (кількість кульок по горизонталі і вертикалі
@@ -18,6 +18,7 @@ const MAX_SIZE = Vector2(6,9) #Максимальний розмір ігров�
 var game_mode = 1
 var v_empty_pos = 0
 var cControl = false
+var cState = true
 var cursor_position = Vector2(0,0)
 
 #Масив кодових символів для кольорів кульок
@@ -65,6 +66,8 @@ func _fixed_process(delta):
 	var scale = get_node("game").get_scale().x
 	ss += " __" + str(ballPressedPos)
 	if ballPressed:
+		cState = true
+		print(ballPressedName)
 		var mouseOnGrid = Vector2(0,0)
 		var onGrid = Vector2(0,0)
 		
@@ -117,7 +120,6 @@ func _fixed_process(delta):
 			lastDirection = onGrid.x
 
 		if (onGrid.y != 0 or vShift)  and !hShift:
-
 			if mouseOnGrid.x == findBallByName('').x:
 
 				if sign(int(onGrid.y)) == sign(int(findBallByName('').y - ballPressedPos.y )) and !vShift:
@@ -125,7 +127,30 @@ func _fixed_process(delta):
 					cutCol(ballPressedPos)
 					updateBalls()
 					vShift = true
-
+	if !ballPressed and cState:
+		cState = false
+		if shiftPressed.y != 0:
+			shiftRow(shiftPressed.x, shiftPressed.y)
+			steps += 1
+		elif !hShift and !vShift and ballPressedName != '':
+			if findBallByName('').x == findBallByName(ballPressedName).x and ballPressed:
+				var sCol = findBallByName(ballPressedName).x
+				cutCol(findBallByName(ballPressedName))
+				updateBalls()
+				steps += 1
+		if vShift and v_empty_pos != findBallByName('').y:
+			steps += 1
+		var ballPressedPos = findBallByName(ballPressedName)
+		get_node("game/arrows/right/R" + str(ballPressedPos.y)).set_texture(0)
+		get_node("game/arrows/left/L" + str(ballPressedPos.y)).set_texture(0)
+		get_node("game/hSelector").hide()
+		hShift = false
+		vShift = false
+		ballPressed = false
+		updateBalls()
+		shiftPressed = Vector2(0,0)
+		check_victory()
+		
 #===================================================================
 #===================================================================
 
@@ -218,29 +243,15 @@ func _input(event):
 	if event.is_action_released("ui_up"): 
 		setGameSize(Vector2(gameSize.x, gameSize.y - 1))
 
+	
+	if event.is_action_pressed("LMB") and !cControl:
+		ballPressedName = get_ball_on_grid(get_ball_at_cursor(get_local_mouse_pos()))
+		ballPressed = true
 		
-	if event.is_action_released("LMB"):
-		if shiftPressed.y != 0:
-			shiftRow(shiftPressed.x, shiftPressed.y)
-			steps += 1
-		elif !hShift and !vShift and ballPressedName != '':
-			if findBallByName('').x == findBallByName(ballPressedName).x and ballPressed:
-				var sCol = findBallByName(ballPressedName).x
-				cutCol(findBallByName(ballPressedName))
-				updateBalls()
-				steps += 1
-		if vShift and v_empty_pos != findBallByName('').y:
-			steps += 1
-		var ballPressedPos = findBallByName(ballPressedName)
-		get_node("game/arrows/right/R" + str(ballPressedPos.y)).set_texture(0)
-		get_node("game/arrows/left/L" + str(ballPressedPos.y)).set_texture(0)
-		get_node("game/hSelector").hide()
-		hShift = false
-		vShift = false
+	
+	if event.is_action_released("LMB") and !cControl:
 		ballPressed = false
-		updateBalls()
-		shiftPressed = Vector2(0,0)
-		check_victory()
+
 
 # Перевірка, чи гру виграно
 func check_victory():
@@ -387,6 +398,18 @@ func cutCol(ball):
 			i = b + (ball.x * gameSize.y)
 			mainArray[i] = column[b]
 
+func get_ball_on_grid(onGrid):
+	var i = onGrid.y + (onGrid.x * gameSize.y)
+	if onGrid.x < gameSize.x and onGrid.y < gameSize.y:
+		return mainArray[i]
+
+func get_ball_at_cursor(cursor_pos):
+	var cursorOnGrid = Vector2(0,0)
+	var scale = get_node("game").get_scale().x
+	cursorOnGrid.x = int((cursor_pos.x/scale) / BALL_SIZE) - 1 
+	cursorOnGrid.y = int((cursor_pos.y/scale - BALL_SIZE/2) / BALL_SIZE)
+	return cursorOnGrid
+
 func _signal_ballClicked(name):
 	if name != 'b':
 		name = name[1] + name[2]
@@ -396,21 +419,13 @@ func _signal_ballClicked(name):
 	ballPressed = true
 
 func ball_clicked(cursor_position):
-	var cursorOnGrid = Vector2(0,0)
 	var ss = ''
-	var scale = get_node("game").get_scale().x
-	cursorOnGrid.x = int((cursor_position.x/scale) / BALL_SIZE) - 1 
-	cursorOnGrid.y = int((cursor_position.y/scale - BALL_SIZE/2) / BALL_SIZE)
-	var i = cursorOnGrid.y + (cursorOnGrid.x * gameSize.y)
-	if i < mainArray.size() - 1:
-		ballPressedName = mainArray[i]
-	ss += str(i) + ' ' + str(mainArray) + ' ' + str(ballPressedName)
+	
+	ss += str(get_ball_on_grid(get_ball_at_cursor(cursor_position)))
 	ballPressed = true
 	get_node("txt").set_text(ss)
-	print(cursorOnGrid)
-	
-	
 
+	
 
 func _on_back_pressed():
 	get_node("/root/global").goto_scene("res://scenes/startMenu.tscn")

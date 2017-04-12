@@ -8,19 +8,19 @@
 [sub_resource type="Animation" id=1]
 
 resource/name = "a"
-length = 10.0
-loop = false
+length = 2.5
+loop = true
 step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:transform/pos")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 1.5, 2, 2.3, 3.2 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":0, "values":[ Vector2( 142.138, 227.488 ), Vector2( 285.075, 223.055 ), Vector2( 285.075, 223.055 ), Vector2( 139.922, 303.942 ) ] }
+tracks/0/keys = { "times":FloatArray( 1.5, 2, 2.3 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Vector2( 142.138, 227.488 ), Vector2( 285.075, 223.055 ), Vector2( 285.075, 223.055 ) ] }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:texture")
 tracks/1/interp = 1
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0, 1.4, 2.3, 3.5, 3.8 ), "transitions":FloatArray( 1, 1, 1, 1, 1 ), "update":1, "values":[ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 3 ) ] }
+tracks/1/keys = { "times":FloatArray( 0, 1.4, 2.3 ), "transitions":FloatArray( 1, 1, 1 ), "update":1, "values":[ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 3 ) ] }
 
 [node name="main" type="Node2D"]
 
@@ -48,7 +48,7 @@ autoplay = ""
 
 [node name="Sprite" type="Sprite" parent="."]
 
-transform/pos = Vector2( 142.138, 227.488 )
+transform/pos = Vector2( 268.259, 223.577 )
 transform/scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 3 )
 
