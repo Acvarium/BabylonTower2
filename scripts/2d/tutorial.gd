@@ -9,7 +9,7 @@ func _ready():
 	var game = get_node("main")
 	game.cControl = true
 	game.game_mode = 1
-	game.setGameSize(Vector2(3,4))
+	game.setGameSize(Vector2(3,5))
 	
 	set_fixed_process(true)
 #	game.get_node("game/hSelector").show()

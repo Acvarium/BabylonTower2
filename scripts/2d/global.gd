@@ -1,5 +1,5 @@
 extends Node
-
+var screen_size = Vector2(512,800)
 var gameSize = Vector2(3,4)
 var game_mode = 1
 var time = 0
