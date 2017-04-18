@@ -44,6 +44,8 @@ enabled_focus_mode = 2
 shortcut = null
 textures/normal = ExtResource( 3 )
 textures/hover = ExtResource( 4 )
+params/resize_mode = 0
+params/stretch_mode = 0
 
 [node name="middleBitton" type="TextureButton" parent="."]
 
@@ -60,6 +62,8 @@ enabled_focus_mode = 2
 shortcut = null
 textures/normal = ExtResource( 5 )
 textures/hover = ExtResource( 6 )
+params/resize_mode = 0
+params/stretch_mode = 0
 
 [node name="hardButton" type="TextureButton" parent="."]
 
@@ -76,6 +80,8 @@ enabled_focus_mode = 2
 shortcut = null
 textures/normal = ExtResource( 7 )
 textures/hover = ExtResource( 8 )
+params/resize_mode = 0
+params/stretch_mode = 0
 
 [node name="hardButton1" type="TextureButton" parent="."]
 
@@ -92,6 +98,8 @@ enabled_focus_mode = 2
 shortcut = null
 textures/normal = ExtResource( 9 )
 textures/hover = ExtResource( 10 )
+params/resize_mode = 0
+params/stretch_mode = 0
 
 [connection signal="pressed" from="easyButton" to="." method="_on_easyButton_pressed"]
 

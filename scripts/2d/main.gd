@@ -42,17 +42,11 @@ const COLORS = {
 }
 
 func fit_to_screen():
+	var bottom_pos = get_node("canvas/bottom").get_pos()
 	var game_screen_size = get_node("/root/global").screen_size
-	var screen_resolution = get_viewport().get_rect().size
-	var game_ratio = game_screen_size.y / game_screen_size.x
-	var ratio = screen_resolution.y / screen_resolution.x
-	var bg = get_node("bg")
-	var scale = bg.get_scale()
-	scale.y = scale.y * (ratio / game_ratio)
-	bg.set_scale(scale)
-	var bottom_pos = get_node("bottom").get_pos()
-	bottom_pos.y = game_screen_size.y * (ratio / game_ratio)
-	get_node("bottom").set_pos(bottom_pos)
+	var scale = get_node("bg").get_scale()
+	scale.y = scale.y *  (bottom_pos.y / game_screen_size.y) 
+	get_node("bg").set_scale(scale)
 
 #-------------------------------------------------------------------
 func _ready():
@@ -74,7 +68,7 @@ func _fixed_process(delta):
 		cursor_position = get_local_mouse_pos() 
 	var minutes = int(time / 60)
 	var sec = int(time - (minutes * 60))
-	get_node("bottom/time").set_text(str("%02d" % minutes) + ":" + str("%02d" % sec))
+	get_node("canvas/bottom/time").set_text(str("%02d" % minutes) + ":" + str("%02d" % sec))
 	
 
 	get_node("txt").set_text(str(cursor_position))
@@ -408,7 +402,7 @@ func updateBalls():
 			createBall(name)
 		get_node("game/balls/b" + mainArray[index]).set_pos(Vector2(col * (BALL_SIZE), row * (BALL_SIZE)))
 		index += 1
-		get_node("bottom/steps").set_text(str(steps))
+		get_node("canvas/bottom/steps").set_text(str(steps))
 
 #Обробка сигналів кнопок
 func _signal_arrow(rowDir):
